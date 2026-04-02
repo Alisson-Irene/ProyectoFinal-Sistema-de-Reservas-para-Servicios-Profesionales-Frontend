@@ -11,10 +11,12 @@
 <button (click)="crearServicio()">Crear Servicio</button>
 <button (click)="cargarServicios()">Cargar Servicios</button>
 
+
 <hr>
 
 <ul>
-  <li *ngFor="let s of servicios">
-    {{ s.id }} - {{ s.nombre }} - ${{ s.precio }}
+  <li *ngFor="let s of servicios"> 
+    {{ s.id }} - {{ s.nombre }} - {{ s.descripcion }} -${{ s.precio }}
+  
   </li>
-</ul>
+</ul>> 

@@ -31,7 +31,6 @@ export class App {
       next: () => {
         this.mensaje = 'Servicio creado';
         this.servicio = { nombre: '', descripcion: '', precio: 0 };
-        this.cargarServicios();
       },
       error: () => {
         this.mensaje = 'Error al crear servicio';
@@ -40,12 +39,18 @@ export class App {
   }
 
   cargarServicios() {
-    this.http.get<any[]>(`${this.api}/servicios`).subscribe(res => {
-      this.servicios = res;
+    this.http.get<any[]>(`${this.api}/servicios`).subscribe({
+      next: (data) => {
+        this.servicios = data;
+        this.mensaje = '';
+        console.log('Servicios cargados:', data);
+      },
+      error: (error) => {
+        console.error('Error al cargar servicios:', error);
+        this.mensaje = 'Error al cargar servicios';
+      }
     });
-  }
+  } 
 
-  ngOnInit() {
-    this.cargarServicios();
-  }
+ 
 }
