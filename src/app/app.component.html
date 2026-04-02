@@ -1,0 +1,19 @@
+<h1>Servicios</h1>
+
+<p>{{ mensaje }}</p>
+
+<input [(ngModel)]="servicio.nombre" placeholder="Nombre">
+<input [(ngModel)]="servicio.descripcion" placeholder="Descripción">
+<input [(ngModel)]="servicio.precio" type="number" placeholder="Precio">
+
+<button (click)="crearServicio()">Crear Servicio</button>
+
+<button (click)="cargarServicios()">Cargar Servicios</button>
+
+<hr>
+
+<ul>
+  <li *ngFor="let s of servicios">
+    {{ s.id }} - {{ s.nombre }} - ${{ s.precio }}
+  </li>
+</ul>
