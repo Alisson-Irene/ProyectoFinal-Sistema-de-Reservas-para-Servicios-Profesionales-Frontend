@@ -8,15 +8,18 @@
 
 <br><br>
 
-<button (click)="crearServicio()">Crear Servicio</button>
+<button *ngIf="!editando" (click)="crearServicio()">Crear Servicio</button>
+<button *ngIf="editando" (click)="actualizarServicio()">Guardar Cambios</button>
+<button *ngIf="editando" (click)="cancelarEdicionServicio()">Cancelar</button>
 <button (click)="cargarServicios()">Cargar Servicios</button>
-
 
 <hr>
 
 <ul>
-  <li *ngFor="let s of servicios"> 
-    {{ s.id }} - {{ s.nombre }} - {{ s.descripcion }} -${{ s.precio }}
+  <li *ngFor="let s of servicios">
+    {{ s.id }} - {{ s.nombre }} -  {{ s.descripcion }} - ${{ s.precio }}
+    <button (click)="editarServicio(s)">Editar</button>
+  <button (click)="eliminarServicio(s.id)">Eliminar</button>
   
   </li>
-</ul>> 
+</ul>
