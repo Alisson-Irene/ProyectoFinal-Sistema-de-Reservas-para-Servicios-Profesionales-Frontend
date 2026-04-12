@@ -1,0 +1,24 @@
+<h1>Servicios</h1>
+
+<p>{{ mensaje }}</p>
+
+<input [(ngModel)]="servicio.nombre" placeholder="Nombre">
+<input [(ngModel)]="servicio.descripcion" placeholder="Descripción">
+<input [(ngModel)]="servicio.precio" type="number" placeholder="Precio">
+
+<br><br>
+
+<button *ngIf="!editando" (click)="crearServicio()">Crear Servicio</button>
+<button *ngIf="editando" (click)="actualizarServicio()">Guardar Cambios</button>
+<button *ngIf="editando" (click)="cancelarEdicionServicio()">Cancelar</button>
+<button (click)="cargarServicios()">Cargar Servicios</button>
+
+<hr>
+
+<ul>
+  <li *ngFor="let s of servicios">
+    {{ s.id }} - {{ s.nombre }} - {{ s.descripcion }} - ${{ s.precio }}
+    <button (click)="editarServicio(s)">Editar</button>
+    <button (click)="eliminarServicio(s.id)">Eliminar</button>
+  </li>
+</ul>

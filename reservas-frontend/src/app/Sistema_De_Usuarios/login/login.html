@@ -1,0 +1,22 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Login</h1>
+    <p>Ingresa al sistema</p>
+
+    <input
+      type="text"
+      [(ngModel)]="usuario"
+      placeholder="Usuario"
+    >
+
+    <input
+      type="password"
+      [(ngModel)]="password"
+      placeholder="Contraseña"
+    >
+
+    <button (click)="iniciarSesion()">Iniciar sesión</button>
+
+    <p class="mensaje">{{ mensaje }}</p>
+  </div>
+</div>
