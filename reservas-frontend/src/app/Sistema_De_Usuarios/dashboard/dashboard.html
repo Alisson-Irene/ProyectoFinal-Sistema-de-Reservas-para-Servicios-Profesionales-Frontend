@@ -1,1 +1,12 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <div class="dashboard-card">
+    <h1>Dashboard</h1>
+    <p>Bienvenido al sistema, {{ usuarioNombre }}</p>
+
+    <div class="menu-opciones">
+      <a routerLink="/inventario" class="btn opcion inventario">Ir a Inventario</a>
+      <a routerLink="/usuarios" class="btn opcion usuarios">Ir a Usuarios</a>
+      <a routerLink="/" class="btn salir">Cerrar sesión</a>
+    </div>
+  </div>
+</div>
