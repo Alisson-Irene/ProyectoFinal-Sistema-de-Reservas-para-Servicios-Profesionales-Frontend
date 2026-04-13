@@ -132,6 +132,4 @@ export class UsuariosComponent implements OnInit {
     this.editando = false;
     this.mostrarPassword = false;
   }
-
-
 }

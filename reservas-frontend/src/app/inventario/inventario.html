@@ -5,7 +5,7 @@
       <a routerLink="/dashboard" class="btn-volver">Volver al Dashboard</a>
     </div>
 
-    <p class="mensaje">{{ mensaje }}</p>
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
 
     <div class="formulario">
       <input
@@ -13,21 +13,21 @@
         [(ngModel)]="servicio.nombre"
         name="nombre"
         placeholder="Nombre"
-      >
+      />
 
       <input
         type="text"
         [(ngModel)]="servicio.descripcion"
         name="descripcion"
         placeholder="Descripción"
-      >
+      />
 
       <input
         type="number"
         [(ngModel)]="servicio.precio"
         name="precio"
         placeholder="Precio"
-      >
+      />
 
       <div class="acciones-form">
         <button
@@ -36,12 +36,13 @@
           (click)="crearServicio()"
           [disabled]="creandoServicio"
         >
-          {{ creandoServicio ? 'Creando...' : 'Crear Servicio' }}
+          Crear Servicio
         </button>
 
         <button
           type="button"
           *ngIf="editando"
+          class="btn-editar"
           (click)="actualizarServicio()"
         >
           Guardar Cambios
@@ -62,29 +63,41 @@
           (click)="cargarServicios()"
           [disabled]="cargandoServicios"
         >
-          {{ cargandoServicios ? 'Cargando...' : 'Cargar Servicios' }}
+          Cargar Servicios
         </button>
       </div>
     </div>
 
-    <hr>
+    <hr />
 
-    <ul class="lista-servicios">
-      <li *ngFor="let s of servicios">
-        <span>
-          {{ s.id }} - {{ s.nombre }} - {{ s.descripcion }} - ${{ s.precio }}
-        </span>
+    <div *ngIf="mostrarListaCompleta">
+      <h3>Servicios guardados en la base de datos</h3>
 
-        <div class="acciones-item">
-          <button type="button" class="btn-editar" (click)="editarServicio(s)">
-            Editar
-          </button>
+      <ul class="lista-servicios">
+        <li *ngFor="let s of servicios; let i = index">
+          <span>
+            {{ i + 1 }} - {{ s.nombre }} - {{ s.descripcion }} - ${{ s.precio }}
+          </span>
 
-          <button type="button" class="btn-eliminar" (click)="eliminarServicio(s.id)">
-            Eliminar
-          </button>
-        </div>
-      </li>
-    </ul>
+          <div class="acciones-item">
+            <button
+              type="button"
+              class="btn-editar"
+              (click)="editarServicio(s)"
+            >
+              Editar
+            </button>
+
+            <button
+              type="button"
+              class="btn-eliminar"
+              (click)="eliminarServicio(s.id)"
+            >
+              Eliminar
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>

@@ -1,14 +1,18 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './Sistema_De_Usuarios/login/login';
-import { RegisterComponent } from './Sistema_De_Usuarios/register/register';
 import { DashboardComponent } from './Sistema_De_Usuarios/dashboard/dashboard';
 import { UsuariosComponent } from './Sistema_De_Usuarios/CRUD_Usuarios/usuarios/usuarios';
 import { InventarioComponent } from './inventario/inventario';
+import { CambiarPasswordComponent } from './Sistema_De_Usuarios/Recuperacion/password';
+import { ServiciosUsuarioComponent } from './servicios-usuario/servicios-usuario';
+import { PanelUsuarioComponent } from './Sistema_De_Usuarios/panel-usuario/panel-usuario';
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  { path: 'cambiar-password', component: CambiarPasswordComponent },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'usuarios', component: UsuariosComponent },
-  { path: 'inventario', component: InventarioComponent }
+  { path: 'inventario', component: InventarioComponent },
+  { path: 'panel-usuario', component: PanelUsuarioComponent },
+  { path: 'servicios-usuario', component: ServiciosUsuarioComponent }
 ];

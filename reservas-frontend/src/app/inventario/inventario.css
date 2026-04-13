@@ -65,6 +65,8 @@ li {
   border: 1px solid #d1d5db;
   border-radius: 8px;
   box-sizing: border-box;
+  width: 100%;
+  max-width: 380px;
 }
 
 .acciones-form {
@@ -80,6 +82,11 @@ button {
   cursor: pointer;
   color: white;
   background: #16a34a;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .btn-cancelar {
@@ -101,23 +108,40 @@ button {
 .lista-servicios {
   list-style: none;
   padding: 0;
+  margin-top: 15px;
 }
 
 .lista-servicios li {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 12px;
   padding: 12px;
   border: 1px solid #e5e7eb;
   border-radius: 8px;
   margin-bottom: 10px;
+  background: #f9fafb;
 }
 
 .acciones-item {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .mensaje {
   margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.servicio-creado {
+  margin-top: 20px;
+}
+
+.tarjeta-servicio {
+  padding: 12px;
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  border-radius: 8px;
+  margin-top: 10px;
 }

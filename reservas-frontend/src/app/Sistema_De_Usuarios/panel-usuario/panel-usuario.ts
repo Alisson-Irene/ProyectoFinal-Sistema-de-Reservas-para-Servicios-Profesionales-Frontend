@@ -3,13 +3,13 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-panel-usuario',
   standalone: true,
   imports: [RouterLink, CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css'
+  templateUrl: './panel-usuario.html',
+  styleUrl: './panel-usuario.css'
 })
-export class DashboardComponent {
+export class PanelUsuarioComponent {
   usuarioNombre = '';
 
   constructor(private router: Router) {}
@@ -24,8 +24,8 @@ export class DashboardComponent {
 
     const usuario = JSON.parse(usuarioGuardado);
 
-    if (usuario.rol !== 'admin') {
-      this.router.navigate(['/panel-usuario']);
+    if (usuario.rol !== 'usuario') {
+      this.router.navigate(['/dashboard']);
       return;
     }
 

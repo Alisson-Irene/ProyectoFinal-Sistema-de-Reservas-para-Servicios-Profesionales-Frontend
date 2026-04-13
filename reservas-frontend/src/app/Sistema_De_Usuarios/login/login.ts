@@ -39,7 +39,14 @@ export class LoginComponent {
     this.http.post<any>(`${this.api}/auth/login`, body).subscribe({
       next: (res) => {
         this.mensaje = res.mensaje || 'Inicio de sesión correcto';
-        this.router.navigate(['/dashboard']);
+
+        localStorage.setItem('usuarioLogueado', JSON.stringify(res.usuario));
+
+        if (res.usuario.rol === 'admin') {
+          this.router.navigate(['/dashboard']);
+        } else {
+          this.router.navigate(['/panel-usuario']);
+        }
       },
       error: (err) => {
         this.mensaje = err?.error?.mensaje || 'Error al iniciar sesión';

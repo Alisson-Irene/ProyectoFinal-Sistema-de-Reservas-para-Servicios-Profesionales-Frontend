@@ -8,19 +8,8 @@
     <p class="mensaje">{{ mensaje }}</p>
 
     <div class="formulario">
-      <input
-        type="text"
-        [(ngModel)]="usuario.nombre"
-        name="nombre"
-        placeholder="Nombre"
-      >
-
-      <input
-        type="email"
-        [(ngModel)]="usuario.correo"
-        name="correo"
-        placeholder="Correo"
-      >
+      <input type="text" [(ngModel)]="usuario.nombre" name="nombre" placeholder="Nombre">
+      <input type="email" [(ngModel)]="usuario.correo" name="correo" placeholder="Correo">
 
       <div class="password-container">
         <input
@@ -30,7 +19,6 @@
           name="password"
           placeholder="Contraseña"
         >
-
         <button type="button" (click)="togglePassword()" class="btn-eye">
           {{ mostrarPassword ? '🙈' : '👁️' }}
         </button>
