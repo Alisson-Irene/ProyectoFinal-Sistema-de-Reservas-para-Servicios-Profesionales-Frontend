@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-inventario',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, RouterLink],
   templateUrl: './inventario.html',
   styleUrl: './inventario.css'
 })
@@ -26,28 +27,54 @@ export class InventarioComponent {
   servicios: any[] = [];
   editando = false;
   servicioEditandoId: number | null = null;
+  cargandoServicios = false;
+  creandoServicio = false;
+
+  // OJO: no cargar automáticamente aquí
+  ngOnInit() {}
 
   crearServicio() {
-    this.http.post(`${this.api}/servicios`, this.servicio).subscribe({
-      next: () => {
-        this.mensaje = 'Servicio creado';
+    if (this.creandoServicio) return;
+
+    if (
+      !this.servicio.nombre.trim() ||
+      !this.servicio.descripcion.trim() ||
+      this.servicio.precio <= 0
+    ) {
+      this.mensaje = 'Completa correctamente todos los campos';
+      return;
+    }
+
+    this.creandoServicio = true;
+
+    this.http.post<any>(`${this.api}/servicios`, this.servicio).subscribe({
+      next: (res) => {
+        this.mensaje = res?.message || 'Servicio creado';
         this.limpiarServicio();
-        this.cargarServicios();
+        this.creandoServicio = false;
       },
       error: (err: any) => {
         console.log(err);
         this.mensaje = err?.error?.message || 'Error al crear servicio';
+        this.creandoServicio = false;
       }
     });
   }
 
   cargarServicios() {
+    if (this.cargandoServicios) return;
+
+    this.cargandoServicios = true;
+
     this.http.get<any[]>(`${this.api}/servicios`).subscribe({
       next: (res: any[]) => {
         this.servicios = res;
+        this.cargandoServicios = false;
       },
       error: (err: any) => {
         console.log(err);
+        this.mensaje = err?.error?.message || 'Error al cargar servicios';
+        this.cargandoServicios = false;
       }
     });
   }
@@ -65,9 +92,9 @@ export class InventarioComponent {
   actualizarServicio() {
     if (!this.servicioEditandoId) return;
 
-    this.http.put(`${this.api}/servicios/${this.servicioEditandoId}`, this.servicio).subscribe({
-      next: () => {
-        this.mensaje = 'Servicio actualizado';
+    this.http.put<any>(`${this.api}/servicios/${this.servicioEditandoId}`, this.servicio).subscribe({
+      next: (res) => {
+        this.mensaje = res?.message || 'Servicio actualizado';
         this.limpiarServicio();
         this.cargarServicios();
       },
@@ -83,15 +110,19 @@ export class InventarioComponent {
   }
 
   limpiarServicio() {
-    this.servicio = { nombre: '', descripcion: '', precio: 0 };
+    this.servicio = {
+      nombre: '',
+      descripcion: '',
+      precio: 0
+    };
     this.editando = false;
     this.servicioEditandoId = null;
   }
 
   eliminarServicio(id: number) {
-    this.http.delete(`${this.api}/servicios/${id}`).subscribe({
-      next: () => {
-        this.mensaje = 'Servicio eliminado';
+    this.http.delete<any>(`${this.api}/servicios/${id}`).subscribe({
+      next: (res) => {
+        this.mensaje = res?.message || 'Servicio eliminado';
         this.cargarServicios();
       },
       error: (err: any) => {
@@ -99,9 +130,5 @@ export class InventarioComponent {
         this.mensaje = err?.error?.message || 'Error al eliminar servicio';
       }
     });
-  }
-
-  ngOnInit() {
-    this.cargarServicios();
   }
 }

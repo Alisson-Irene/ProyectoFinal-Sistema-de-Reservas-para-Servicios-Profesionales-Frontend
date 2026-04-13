@@ -23,3 +23,101 @@ ul {
 li {
   margin-bottom: 10px;
 }
+
+.inventario-container {
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 30px;
+}
+
+.inventario-card {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.btn-volver {
+  text-decoration: none;
+  background: #2563eb;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.formulario {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.formulario input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.acciones-form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+  background: #16a34a;
+}
+
+.btn-cancelar {
+  background: #dc2626;
+}
+
+.btn-cargar {
+  background: #2563eb;
+}
+
+.btn-editar {
+  background: #2563eb;
+}
+
+.btn-eliminar {
+  background: #dc2626;
+}
+
+.lista-servicios {
+  list-style: none;
+  padding: 0;
+}
+
+.lista-servicios li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.acciones-item {
+  display: flex;
+  gap: 8px;
+}
+
+.mensaje {
+  margin-bottom: 15px;
+}

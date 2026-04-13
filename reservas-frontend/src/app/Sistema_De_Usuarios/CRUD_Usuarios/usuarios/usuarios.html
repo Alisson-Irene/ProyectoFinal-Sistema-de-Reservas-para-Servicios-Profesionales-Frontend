@@ -1,1 +1,83 @@
-<p>usuarios works!</p>
+<div class="usuarios-container">
+  <div class="usuarios-card">
+    <div class="encabezado">
+      <h1>CRUD de Usuarios</h1>
+      <a routerLink="/dashboard" class="btn-volver">Volver al Dashboard</a>
+    </div>
+
+    <p class="mensaje">{{ mensaje }}</p>
+
+    <div class="formulario">
+      <input
+        type="text"
+        [(ngModel)]="usuario.nombre"
+        name="nombre"
+        placeholder="Nombre"
+      >
+
+      <input
+        type="email"
+        [(ngModel)]="usuario.correo"
+        name="correo"
+        placeholder="Correo"
+      >
+
+      <div class="password-container">
+        <input
+          class="password-input"
+          [type]="mostrarPassword ? 'text' : 'password'"
+          [(ngModel)]="usuario.password"
+          name="password"
+          placeholder="Contraseña"
+        >
+
+        <button type="button" (click)="togglePassword()" class="btn-eye">
+          {{ mostrarPassword ? '🙈' : '👁️' }}
+        </button>
+      </div>
+
+      <select [(ngModel)]="usuario.rol" name="rol">
+        <option value="usuario">Usuario</option>
+        <option value="admin">Admin</option>
+      </select>
+
+      <div class="acciones-form">
+        <button type="button" (click)="guardarUsuario()">
+          {{ editando ? 'Actualizar Usuario' : 'Crear Usuario' }}
+        </button>
+
+        <button type="button" *ngIf="editando" class="btn-cancelar" (click)="cancelarEdicion()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <hr>
+
+    <h2>Lista de Usuarios</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Correo</th>
+          <th>Rol</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of usuarios">
+          <td>{{ u.id }}</td>
+          <td>{{ u.nombre }}</td>
+          <td>{{ u.correo }}</td>
+          <td>{{ u.rol }}</td>
+          <td>
+            <button type="button" class="btn-editar" (click)="editarUsuario(u)">Editar</button>
+            <button type="button" class="btn-eliminar" (click)="eliminarUsuario(u.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

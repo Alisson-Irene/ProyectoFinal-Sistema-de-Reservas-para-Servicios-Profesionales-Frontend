@@ -14,30 +14,34 @@ import { Router, RouterLink } from '@angular/router';
 export class LoginComponent {
   api = 'http://localhost:3000/api';
 
-  correo = ''; 
+  correo = '';
   password = '';
   mensaje = '';
+  mostrarPassword = false;
 
   constructor(private http: HttpClient, private router: Router) {}
 
+  togglePassword() {
+    this.mostrarPassword = !this.mostrarPassword;
+  }
+
   iniciarSesion() {
-    if (this.correo.trim() === '' || this.password.trim() === '') {
+    if (!this.correo.trim() || !this.password.trim()) {
       this.mensaje = 'Completa todos los campos';
       return;
     }
 
     const body = {
-      correo: this.correo,
-      password: this.password
+      correo: this.correo.trim(),
+      password: this.password.trim()
     };
 
     this.http.post<any>(`${this.api}/auth/login`, body).subscribe({
-      next: () => {
-        this.mensaje = 'Inicio de sesión correcto';
-        this.router.navigateByUrl('/dashboard');
+      next: (res) => {
+        this.mensaje = res.mensaje || 'Inicio de sesión correcto';
+        this.router.navigate(['/dashboard']);
       },
       error: (err) => {
-        console.log(err);
         this.mensaje = err?.error?.mensaje || 'Error al iniciar sesión';
       }
     });

@@ -1,24 +1,90 @@
-<h1>Servicios</h1>
+<div class="inventario-container">
+  <div class="inventario-card">
+    <div class="encabezado">
+      <h1>Servicios</h1>
+      <a routerLink="/dashboard" class="btn-volver">Volver al Dashboard</a>
+    </div>
 
-<p>{{ mensaje }}</p>
+    <p class="mensaje">{{ mensaje }}</p>
 
-<input [(ngModel)]="servicio.nombre" placeholder="Nombre">
-<input [(ngModel)]="servicio.descripcion" placeholder="Descripción">
-<input [(ngModel)]="servicio.precio" type="number" placeholder="Precio">
+    <div class="formulario">
+      <input
+        type="text"
+        [(ngModel)]="servicio.nombre"
+        name="nombre"
+        placeholder="Nombre"
+      >
 
-<br><br>
+      <input
+        type="text"
+        [(ngModel)]="servicio.descripcion"
+        name="descripcion"
+        placeholder="Descripción"
+      >
 
-<button *ngIf="!editando" (click)="crearServicio()">Crear Servicio</button>
-<button *ngIf="editando" (click)="actualizarServicio()">Guardar Cambios</button>
-<button *ngIf="editando" (click)="cancelarEdicionServicio()">Cancelar</button>
-<button (click)="cargarServicios()">Cargar Servicios</button>
+      <input
+        type="number"
+        [(ngModel)]="servicio.precio"
+        name="precio"
+        placeholder="Precio"
+      >
 
-<hr>
+      <div class="acciones-form">
+        <button
+          type="button"
+          *ngIf="!editando"
+          (click)="crearServicio()"
+          [disabled]="creandoServicio"
+        >
+          {{ creandoServicio ? 'Creando...' : 'Crear Servicio' }}
+        </button>
 
-<ul>
-  <li *ngFor="let s of servicios">
-    {{ s.id }} - {{ s.nombre }} - {{ s.descripcion }} - ${{ s.precio }}
-    <button (click)="editarServicio(s)">Editar</button>
-    <button (click)="eliminarServicio(s.id)">Eliminar</button>
-  </li>
-</ul>
+        <button
+          type="button"
+          *ngIf="editando"
+          (click)="actualizarServicio()"
+        >
+          Guardar Cambios
+        </button>
+
+        <button
+          type="button"
+          *ngIf="editando"
+          class="btn-cancelar"
+          (click)="cancelarEdicionServicio()"
+        >
+          Cancelar
+        </button>
+
+        <button
+          type="button"
+          class="btn-cargar"
+          (click)="cargarServicios()"
+          [disabled]="cargandoServicios"
+        >
+          {{ cargandoServicios ? 'Cargando...' : 'Cargar Servicios' }}
+        </button>
+      </div>
+    </div>
+
+    <hr>
+
+    <ul class="lista-servicios">
+      <li *ngFor="let s of servicios">
+        <span>
+          {{ s.id }} - {{ s.nombre }} - {{ s.descripcion }} - ${{ s.precio }}
+        </span>
+
+        <div class="acciones-item">
+          <button type="button" class="btn-editar" (click)="editarServicio(s)">
+            Editar
+          </button>
+
+          <button type="button" class="btn-eliminar" (click)="eliminarServicio(s.id)">
+            Eliminar
+          </button>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
