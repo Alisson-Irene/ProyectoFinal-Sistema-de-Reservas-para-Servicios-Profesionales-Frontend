@@ -1,0 +1,29 @@
+<div class="login-container">
+  <div class="login-card">
+    <h1>Login</h1>
+    <p>Ingresa al sistema</p>
+
+    <input
+      type="email"
+      [(ngModel)]="correo"
+      placeholder="Correo"
+    >
+
+    <div class="password-container">
+      <input
+        class="password-input"
+        [type]="mostrarPassword ? 'text' : 'password'"
+        [(ngModel)]="password"
+        placeholder="Contraseña"
+      >
+
+      <button type="button" (click)="togglePassword()" class="btn-eye">
+        {{ mostrarPassword ? '🙈' : '👁️' }}
+      </button>
+    </div>
+
+    <button type="button" (click)="iniciarSesion()">Iniciar sesión</button>
+
+    <p class="mensaje">{{ mensaje }}</p>
+  </div>
+</div>

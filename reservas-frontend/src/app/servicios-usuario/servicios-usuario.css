@@ -1,0 +1,92 @@
+.servicios-container {
+  min-height: 100vh;
+  background: #f3f4f6;
+  padding: 30px;
+}
+
+.servicios-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.encabezado h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.btn-volver {
+  text-decoration: none;
+  background: #2563eb;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.mensaje {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #fef3c7;
+  border-radius: 10px;
+}
+
+.loading {
+  font-size: 1.1rem;
+  padding: 15px 0;
+}
+
+.servicios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.servicio-item {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  background: #fafafa;
+  position: relative;
+}
+
+.numero {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: #2563eb;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.servicio-item h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+}
+
+.servicio-item p {
+  margin: 0 0 15px 0;
+  color: #4b5563;
+}
+
+.precio {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #16a34a;
+}

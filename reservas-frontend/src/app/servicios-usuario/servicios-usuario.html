@@ -1,0 +1,24 @@
+<div class="servicios-container">
+  <div class="servicios-card">
+    <div class="encabezado">
+      <h1>Servicios Disponibles</h1>
+      <a routerLink="/panel-usuario" class="btn-volver">Volver</a>
+    </div>
+
+    <p *ngIf="cargando">Cargando servicios...</p>
+
+    <p *ngIf="!cargando && mensaje">{{ mensaje }}</p>
+
+    <div *ngIf="!cargando && servicios.length > 0" class="lista-servicios">
+      <div class="servicio-card" *ngFor="let servicio of servicios">
+        <h3>{{ servicio.nombre }}</h3>
+        <p>{{ servicio.descripcion }}</p>
+        <p><strong>Precio:</strong> ${{ servicio.precio }}</p>
+      </div>
+    </div>
+
+    <p *ngIf="!cargando && servicios.length === 0 && !mensaje">
+      No hay servicios disponibles
+    </p>
+  </div>
+</div>

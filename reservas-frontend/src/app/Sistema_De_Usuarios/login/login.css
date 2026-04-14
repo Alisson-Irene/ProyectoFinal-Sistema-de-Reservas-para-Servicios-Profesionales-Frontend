@@ -1,0 +1,76 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f3f4f6;
+}
+
+.login-card {
+  width: 360px;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.login-card h1 {
+  margin-bottom: 10px;
+}
+
+.login-card p {
+  margin-bottom: 15px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mensaje {
+  margin-top: 15px;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.password-input {
+  width: 100%;
+  padding: 12px 45px 12px 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  margin-bottom: 0 !important;
+}
+
+.btn-eye {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent !important;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 0;
+  line-height: 1;
+  width: auto !important;
+  color: black !important;
+}

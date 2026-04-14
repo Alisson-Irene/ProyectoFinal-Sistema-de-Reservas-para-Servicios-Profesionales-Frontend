@@ -1,0 +1,12 @@
+<div class="dashboard-container">
+  <div class="dashboard-card">
+    <h1>Dashboard Admin</h1>
+    <p>Bienvenido, {{ usuarioNombre }}</p>
+
+    <div class="menu-opciones">
+      <a routerLink="/inventario" class="btn opcion inventario">Gestionar Servicios</a>
+      <a routerLink="/usuarios" class="btn opcion usuarios">Gestionar Usuarios</a>
+      <button type="button" class="btn salir" (click)="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </div>
+</div>

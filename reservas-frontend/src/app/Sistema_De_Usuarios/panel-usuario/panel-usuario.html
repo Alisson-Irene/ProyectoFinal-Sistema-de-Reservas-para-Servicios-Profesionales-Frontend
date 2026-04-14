@@ -1,0 +1,11 @@
+<div class="dashboard-container">
+  <div class="dashboard-card">
+    <h1>Panel de Usuario</h1>
+    <p>Bienvenido, {{ usuarioNombre }}</p>
+
+    <div class="menu-opciones">
+      <a routerLink="/servicios-usuario" class="btn opcion inventario">Ver Servicios</a>
+      <button type="button" class="btn salir" (click)="cerrarSesion()">Cerrar sesión</button>
+    </div>
+  </div>
+</div>
