@@ -1,0 +1,19 @@
+<div class="categorias-container">
+  <div class="categorias-card">
+    <h1>Categorías</h1>
+
+    <p *ngIf="cargando">Cargando categorías...</p>
+
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+    <ul *ngIf="!cargando && categorias.length > 0">
+      <li *ngFor="let c of categorias; let i = index">
+        {{ i + 1 }} - {{ c.nombre }}
+      </li>
+    </ul>
+
+    <p *ngIf="!cargando && categorias.length === 0 && !mensaje">
+      No hay categorías registradas.
+    </p>
+  </div>
+</div>

@@ -24,14 +24,15 @@ export class ServiciosUsuarioComponent implements OnInit {
   }
 
   cargarServicios(): void {
-    console.log('Intentando cargar servicios...');
+    console.log('Intentando cargar servicios activos...');
 
     const headers = new HttpHeaders({
       'Cache-Control': 'no-cache',
       'Pragma': 'no-cache'
     });
 
-    this.http.get<any[]>('http://localhost:3000/api/servicios', { headers })
+    // 🔥 AQUÍ ESTÁ EL CAMBIO IMPORTANTE
+    this.http.get<any[]>('http://localhost:3000/api/servicios/activos', { headers })
       .pipe(
         finalize(() => {
           this.cargando = false;
@@ -41,8 +42,13 @@ export class ServiciosUsuarioComponent implements OnInit {
       )
       .subscribe({
         next: (data) => {
-          console.log('Servicios recibidos:', data);
+          console.log('Servicios activos recibidos:', data);
           this.servicios = data;
+
+          if (data.length === 0) {
+            this.mensaje = 'No hay servicios disponibles';
+          }
+
           this.cdr.detectChanges();
         },
         error: (error) => {

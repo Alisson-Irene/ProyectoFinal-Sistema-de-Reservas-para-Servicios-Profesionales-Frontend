@@ -7,6 +7,11 @@ import { CambiarPasswordComponent } from './Sistema_De_Usuarios/Recuperacion/pas
 import { ServiciosUsuarioComponent } from './servicios-usuario/servicios-usuario';
 import { PanelUsuarioComponent } from './Sistema_De_Usuarios/panel-usuario/panel-usuario';
 
+// 👇 NUEVO IMPORT
+import { CategoriasComponent } from './categorias/categorias';
+
+
+
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'cambiar-password', component: CambiarPasswordComponent },
@@ -14,5 +19,8 @@ export const routes: Routes = [
   { path: 'usuarios', component: UsuariosComponent },
   { path: 'inventario', component: InventarioComponent },
   { path: 'panel-usuario', component: PanelUsuarioComponent },
-  { path: 'servicios-usuario', component: ServiciosUsuarioComponent }
+  { path: 'servicios-usuario', component: ServiciosUsuarioComponent },
+
+  // 👇 NUEVA RUTA
+  { path: 'categorias', component: CategoriasComponent }
 ];
