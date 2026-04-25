@@ -1,24 +1,71 @@
 <div class="servicios-container">
   <div class="servicios-card">
+
     <div class="encabezado">
       <h1>Servicios Disponibles</h1>
       <a routerLink="/panel-usuario" class="btn-volver">Volver</a>
     </div>
 
+    <p *ngIf="mensaje">{{ mensaje }}</p>
+
+    <select [(ngModel)]="categoriaSeleccionada" name="categoriaSeleccionada">
+      <option value="">Todas las categorías</option>
+
+      <option *ngFor="let categoria of categorias" [value]="categoria.id">
+        {{ categoria.nombre }}
+      </option>
+    </select>
+
     <p *ngIf="cargando">Cargando servicios...</p>
 
-    <p *ngIf="!cargando && mensaje">{{ mensaje }}</p>
+    <div *ngIf="!cargando && serviciosFiltrados().length > 0" class="lista-servicios">
+      <div class="servicio-card" *ngFor="let servicio of serviciosFiltrados()">
 
-    <div *ngIf="!cargando && servicios.length > 0" class="lista-servicios">
-      <div class="servicio-card" *ngFor="let servicio of servicios">
         <h3>{{ servicio.nombre }}</h3>
         <p>{{ servicio.descripcion }}</p>
         <p><strong>Precio:</strong> ${{ servicio.precio }}</p>
+        <p><strong>Categoría:</strong> {{ servicio.categoria || 'Sin categoría' }}</p>
+
+        <button type="button" (click)="seleccionarServicio(servicio)">
+          Seleccionar servicio
+        </button>
+
       </div>
     </div>
 
-    <p *ngIf="!cargando && servicios.length === 0 && !mensaje">
-      No hay servicios disponibles
+    <p *ngIf="!cargando && serviciosFiltrados().length === 0">
+      No hay servicios disponibles para esta categoría
     </p>
+
+    <hr />
+
+    <h2>Realizar Reserva</h2>
+
+    <div class="formulario-reserva">
+      <select [(ngModel)]="reserva.servicio_id" name="servicio_id">
+        <option value="">Seleccione servicio</option>
+
+        <option *ngFor="let servicio of serviciosFiltrados()" [value]="servicio.id">
+          {{ servicio.nombre }}
+        </option>
+      </select>
+
+      <select [(ngModel)]="reserva.profesional_id" name="profesional_id">
+        <option value="">Seleccione profesional</option>
+
+        <option *ngFor="let profesional of profesionales" [value]="profesional.id">
+          {{ profesional.nombre }} - {{ profesional.especialidad }}
+        </option>
+      </select>
+
+      <input type="date" [(ngModel)]="reserva.fecha" name="fecha" />
+
+      <input type="time" [(ngModel)]="reserva.hora" name="hora" />
+
+      <button type="button" (click)="crearReserva()">
+        Reservar
+      </button>
+    </div>
+
   </div>
 </div>

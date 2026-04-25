@@ -1,33 +1,68 @@
 .categorias-container {
-  min-height: 100vh;
-  background: #f3f4f6;
   display: flex;
   justify-content: center;
-  align-items: center;
+  padding: 40px;
+  background: #f5f6fa;
 }
 
 .categorias-card {
-  width: 500px;
+  width: 100%;
+  max-width: 600px;
   background: white;
-  padding: 30px;
-  border-radius: 14px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
 }
 
-.categorias-card h1 {
-  text-align: center;
+.formulario-categoria {
+  display: flex;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
-ul {
-  padding-left: 20px;
-}
-
-li {
+.formulario-categoria input {
+  flex: 1;
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-.mensaje {
-  color: red;
+.formulario-categoria button {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.formulario-categoria button:hover {
+  background: #059669;
+}
+
+.lista-categorias {
+  list-style: none;
+  padding: 0;
+}
+
+.lista-categorias li {
+  background: #f1f5f9;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-eliminar {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-eliminar:hover {
+  background: #dc2626;
 }

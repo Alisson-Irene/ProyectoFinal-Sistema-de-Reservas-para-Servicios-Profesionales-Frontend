@@ -1,0 +1,63 @@
+.reservas-container {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background: #f5f6fa;
+}
+
+.reservas-card {
+  width: 100%;
+  max-width: 800px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+}
+
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-volver {
+  background: #3b82f6;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.formulario-reserva {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formulario-reserva select,
+.formulario-reserva input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.formulario-reserva button {
+  background: #10b981;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.formulario-reserva button:hover {
+  background: #059669;
+}
+
+.reserva-item {
+  background: #f1f5f9;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 8px;
+}

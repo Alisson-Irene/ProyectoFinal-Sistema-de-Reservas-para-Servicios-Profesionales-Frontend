@@ -8,61 +8,38 @@
     <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
 
     <div class="formulario">
-      <input
-        type="text"
-        [(ngModel)]="servicio.nombre"
-        name="nombre"
-        placeholder="Nombre"
-      />
+      <input type="text" [(ngModel)]="servicio.nombre" name="nombre" placeholder="Nombre" />
 
-      <input
-        type="text"
-        [(ngModel)]="servicio.descripcion"
-        name="descripcion"
-        placeholder="Descripción"
-      />
+      <input type="text" [(ngModel)]="servicio.descripcion" name="descripcion" placeholder="Descripción" />
 
-      <input
-        type="number"
-        [(ngModel)]="servicio.precio"
-        name="precio"
-        placeholder="Precio"
-      />
+      <input type="number" [(ngModel)]="servicio.precio" name="precio" placeholder="Precio" />
+
+      <select [(ngModel)]="servicio.categoria_id" name="categoria_id">
+        <option value="">Seleccione una categoría</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria.id">
+          {{ categoria.nombre }}
+        </option>
+      </select>
+
+      <select [(ngModel)]="servicio.estado" name="estado">
+        <option value="ACTIVO">ACTIVO</option>
+        <option value="INACTIVO">INACTIVO</option>
+      </select>
 
       <div class="acciones-form">
-        <button
-          type="button"
-          *ngIf="!editando"
-          (click)="crearServicio()"
-          [disabled]="creandoServicio"
-        >
+        <button type="button" *ngIf="!editando" (click)="crearServicio()" [disabled]="creandoServicio">
           Crear Servicio
         </button>
 
-        <button
-          type="button"
-          *ngIf="editando"
-          class="btn-editar"
-          (click)="actualizarServicio()"
-        >
+        <button type="button" *ngIf="editando" class="btn-editar" (click)="actualizarServicio()">
           Guardar Cambios
         </button>
 
-        <button
-          type="button"
-          *ngIf="editando"
-          class="btn-cancelar"
-          (click)="cancelarEdicionServicio()"
-        >
+        <button type="button" *ngIf="editando" class="btn-cancelar" (click)="cancelarEdicionServicio()">
           Cancelar
         </button>
 
-        <button
-          type="button"
-          class="btn-cargar"
-          (click)="cargarServicios()"
-          [disabled]="cargandoServicios"
-        >
+        <button type="button" class="btn-cargar" (click)="cargarServicios()" [disabled]="cargandoServicios">
           Cargar Servicios
         </button>
       </div>
@@ -77,22 +54,16 @@
         <li *ngFor="let s of servicios; let i = index">
           <span>
             {{ i + 1 }} - {{ s.nombre }} - {{ s.descripcion }} - ${{ s.precio }}
+            - Categoría: {{ s.categoria || 'Sin categoría' }}
+            - Estado: {{ s.estado || 'ACTIVO' }}
           </span>
 
           <div class="acciones-item">
-            <button
-              type="button"
-              class="btn-editar"
-              (click)="editarServicio(s)"
-            >
+            <button type="button" class="btn-editar" (click)="editarServicio(s)">
               Editar
             </button>
 
-            <button
-              type="button"
-              class="btn-eliminar"
-              (click)="eliminarServicio(s.id)"
-            >
+            <button type="button" class="btn-eliminar" (click)="eliminarServicio(s.id)">
               Eliminar
             </button>
           </div>

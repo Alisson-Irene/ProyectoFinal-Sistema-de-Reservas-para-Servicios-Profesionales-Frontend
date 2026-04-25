@@ -1,0 +1,30 @@
+<div class="reservas-container">
+  <div class="reservas-card">
+
+    <div class="encabezado">
+      <h1>Gestión de Reservas</h1>
+      <a routerLink="/dashboard" class="btn-volver">Volver</a>
+    </div>
+
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+    <h2>Reservas registradas</h2>
+
+    <div *ngIf="reservas.length > 0">
+      <div class="reserva-item" *ngFor="let r of reservas">
+        <p><strong>ID:</strong> {{ r.id }}</p>
+        <p><strong>Usuario:</strong> {{ r.usuario || r.usuario_id }}</p>
+        <p><strong>Servicio:</strong> {{ r.servicio || r.servicio_id }}</p>
+        <p><strong>Profesional:</strong> {{ r.profesional || r.profesional_id }}</p>
+        <p><strong>Fecha:</strong> {{ r.fecha }}</p>
+        <p><strong>Hora:</strong> {{ r.hora }}</p>
+        <p><strong>Estado:</strong> {{ r.estado }}</p>
+      </div>
+    </div>
+
+    <p *ngIf="reservas.length === 0">
+      No hay reservas registradas
+    </p>
+
+  </div>
+</div>

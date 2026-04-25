@@ -1,92 +1,84 @@
 .servicios-container {
-  min-height: 100vh;
-  background: #f3f4f6;
-  padding: 30px;
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  background: #f5f6fa;
 }
 
 .servicios-card {
-  max-width: 1100px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 900px;
   background: white;
-  padding: 30px;
-  border-radius: 18px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
 }
 
 .encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25px;
-}
-
-.encabezado h1 {
-  margin: 0;
-  font-size: 2rem;
 }
 
 .btn-volver {
+  background: #3b82f6;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 6px;
   text-decoration: none;
-  background: #2563eb;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 10px;
-  font-weight: bold;
 }
 
-.mensaje {
-  margin-bottom: 20px;
-  padding: 12px;
-  background: #fef3c7;
-  border-radius: 10px;
+/* SELECT CATEGORIAS */
+select {
+  margin: 15px 0;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-.loading {
-  font-size: 1.1rem;
-  padding: 15px 0;
-}
-
-.servicios-grid {
+/* GRID DE SERVICIOS */
+.lista-servicios {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 15px;
 }
 
-.servicio-item {
-  border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 18px;
-  background: #fafafa;
-  position: relative;
+/* TARJETA */
+.servicio-card {
+  background: #f1f5f9;
+  padding: 15px;
+  border-radius: 10px;
+  transition: 0.2s;
 }
 
-.numero {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: #2563eb;
+.servicio-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+}
+
+/* BOTÓN */
+.servicio-card button {
+  margin-top: 10px;
+  width: 100%;
+  background: #10b981;
   color: white;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
+  border: none;
+  padding: 8px;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
-.servicio-item h3 {
-  margin: 0 0 10px 0;
-  font-size: 1.2rem;
+.servicio-card button:hover {
+  background: #059669;
 }
 
-.servicio-item p {
-  margin: 0 0 15px 0;
-  color: #4b5563;
-}
-
-.precio {
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #16a34a;
+/* BADGE CATEGORIA */
+.badge {
+  display: inline-block;
+  margin-top: 5px;
+  background: #dbeafe;
+  color: #1e3a8a;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 12px;
 }

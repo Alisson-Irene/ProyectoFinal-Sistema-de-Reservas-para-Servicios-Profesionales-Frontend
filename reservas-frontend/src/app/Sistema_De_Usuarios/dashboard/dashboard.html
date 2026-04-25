@@ -4,9 +4,12 @@
     <p>Bienvenido, {{ usuarioNombre }}</p>
 
     <div class="menu-opciones">
-      <a routerLink="/inventario" class="btn opcion inventario">Gestionar Servicios</a>
-      <a routerLink="/usuarios" class="btn opcion usuarios">Gestionar Usuarios</a>
-      <button type="button" class="btn salir" (click)="cerrarSesion()">Cerrar sesión</button>
-    </div>
-  </div>
+  <a routerLink="/inventario" class="btn inventario">Gestionar Servicios</a>
+
+  <a routerLink="/reservas" class="btn reservas">Gestionar Reservas</a>
+
+  <a routerLink="/usuarios" class="btn usuarios">Gestionar Usuarios</a>
+
+  <button type="button" class="btn salir" (click)="cerrarSesion()">Cerrar sesión</button>
+</div>
 </div>

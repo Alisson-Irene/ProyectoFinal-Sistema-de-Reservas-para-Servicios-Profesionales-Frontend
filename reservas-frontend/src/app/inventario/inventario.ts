@@ -1,40 +1,58 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-inventario',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './inventario.html',
   styleUrl: './inventario.css'
 })
-export class InventarioComponent {
+export class InventarioComponent implements OnInit {
   api = 'http://localhost:3000/api';
-
-  constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef
-  ) {}
 
   mensaje = '';
 
   servicio = {
     nombre: '',
     descripcion: '',
-    precio: null as number | null
+    precio: null as number | null,
+    categoria_id: '',
+    estado: 'ACTIVO'
   };
 
+  categorias: any[] = [];
   servicios: any[] = [];
+
   editando = false;
   servicioEditandoId: number | null = null;
   cargandoServicios = false;
   creandoServicio = false;
   mostrarListaCompleta = false;
 
-  ngOnInit(): void {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+    this.cargarCategorias();
+  }
+
+  cargarCategorias(): void {
+    this.http.get<any[]>(`${this.api}/categorias`).subscribe({
+      next: (res) => {
+        this.categorias = res;
+        console.log('Categorías cargadas:', res);
+      },
+      error: (err) => {
+        console.error('Error al cargar categorías:', err);
+      }
+    });
+  }
 
   crearServicio(): void {
     if (this.creandoServicio) return;
@@ -48,18 +66,18 @@ export class InventarioComponent {
       this.servicio.precio <= 0
     ) {
       this.mensaje = 'Completa correctamente todos los campos';
-      this.cdr.detectChanges();
       return;
     }
 
     const datosEnviar = {
       nombre: this.servicio.nombre.trim(),
       descripcion: this.servicio.descripcion.trim(),
-      precio: this.servicio.precio
+      precio: this.servicio.precio,
+      categoria_id: this.servicio.categoria_id || null,
+      estado: this.servicio.estado
     };
 
     this.creandoServicio = true;
-    this.cdr.detectChanges();
 
     this.http.post<any>(`${this.api}/servicios`, datosEnviar).subscribe({
       next: (res) => {
@@ -67,13 +85,11 @@ export class InventarioComponent {
         this.mostrarListaCompleta = false;
         this.limpiarServicio();
         this.creandoServicio = false;
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
-        this.mensaje = err?.error?.message || 'Error al crear servicio';
+        this.mensaje = err?.error?.detalle || err?.error?.message || 'Error al crear servicio';
         this.creandoServicio = false;
-        this.cdr.detectChanges();
       }
     });
   }
@@ -85,20 +101,17 @@ export class InventarioComponent {
     this.cargandoServicios = true;
     this.mostrarListaCompleta = false;
     this.servicios = [];
-    this.cdr.detectChanges();
 
     this.http.get<any[]>(`${this.api}/servicios`).subscribe({
       next: (res) => {
         this.servicios = Array.isArray(res) ? res : [];
         this.mostrarListaCompleta = true;
         this.cargandoServicios = false;
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
-        this.mensaje = err?.error?.message || 'Error al cargar servicios';
+        this.mensaje = err?.error?.detalle || err?.error?.message || 'Error al cargar servicios';
         this.cargandoServicios = false;
-        this.cdr.detectChanges();
       }
     });
   }
@@ -111,10 +124,10 @@ export class InventarioComponent {
     this.servicio = {
       nombre: servicio.nombre,
       descripcion: servicio.descripcion,
-      precio: servicio.precio
+      precio: Number(servicio.precio),
+      categoria_id: servicio.categoria_id || '',
+      estado: servicio.estado || 'ACTIVO'
     };
-
-    this.cdr.detectChanges();
   }
 
   actualizarServicio(): void {
@@ -129,14 +142,15 @@ export class InventarioComponent {
       this.servicio.precio <= 0
     ) {
       this.mensaje = 'Completa correctamente todos los campos';
-      this.cdr.detectChanges();
       return;
     }
 
     const datosActualizar = {
       nombre: this.servicio.nombre.trim(),
       descripcion: this.servicio.descripcion.trim(),
-      precio: this.servicio.precio
+      precio: this.servicio.precio,
+      categoria_id: this.servicio.categoria_id || null,
+      estado: this.servicio.estado
     };
 
     this.http.put<any>(`${this.api}/servicios/${this.servicioEditandoId}`, datosActualizar).subscribe({
@@ -144,12 +158,10 @@ export class InventarioComponent {
         this.mensaje = res?.message || 'Servicio actualizado correctamente';
         this.limpiarServicio();
         this.cargarServicios();
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
-        this.mensaje = err?.error?.message || 'Error al actualizar servicio';
-        this.cdr.detectChanges();
+        this.mensaje = err?.error?.detalle || err?.error?.message || 'Error al actualizar servicio';
       }
     });
   }
@@ -157,14 +169,15 @@ export class InventarioComponent {
   cancelarEdicionServicio(): void {
     this.limpiarServicio();
     this.mensaje = '';
-    this.cdr.detectChanges();
   }
 
   limpiarServicio(): void {
     this.servicio = {
       nombre: '',
       descripcion: '',
-      precio: null
+      precio: null,
+      categoria_id: '',
+      estado: 'ACTIVO'
     };
 
     this.editando = false;
@@ -178,12 +191,10 @@ export class InventarioComponent {
       next: (res) => {
         this.mensaje = res?.message || 'Servicio eliminado correctamente';
         this.cargarServicios();
-        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
-        this.mensaje = err?.error?.message || 'Error al eliminar servicio';
-        this.cdr.detectChanges();
+        this.mensaje = err?.error?.detalle || err?.error?.message || 'Error al eliminar servicio';
       }
     });
   }
