@@ -10,15 +10,30 @@
 
     <h2>Reservas registradas</h2>
 
-    <div *ngIf="reservas.length > 0">
+    <div class="reservas-grid" *ngIf="reservas.length > 0">
       <div class="reserva-item" *ngFor="let r of reservas">
+
+        <h3>{{ r.servicio || 'Servicio no encontrado' }}</h3>
+
         <p><strong>ID:</strong> {{ r.id }}</p>
         <p><strong>Usuario:</strong> {{ r.usuario || r.usuario_id }}</p>
-        <p><strong>Servicio:</strong> {{ r.servicio || r.servicio_id }}</p>
         <p><strong>Profesional:</strong> {{ r.profesional || r.profesional_id }}</p>
-        <p><strong>Fecha:</strong> {{ r.fecha }}</p>
+        <p><strong>Precio:</strong> ${{ r.precio || '0.00' }}</p>
+        <p><strong>Fecha:</strong> {{ r.fecha | date:'dd/MM/yyyy' }}</p>
         <p><strong>Hora:</strong> {{ r.hora }}</p>
-        <p><strong>Estado:</strong> {{ r.estado }}</p>
+
+        <label><strong>Estado:</strong></label>
+        <select [(ngModel)]="r.estado">
+          <option value="PENDIENTE">PENDIENTE</option>
+          <option value="CONFIRMADA">CONFIRMADA</option>
+          <option value="CANCELADA">CANCELADA</option>
+          <option value="FINALIZADA">FINALIZADA</option>
+        </select>
+
+        <button type="button" (click)="actualizarEstado(r)">
+          Guardar cambios
+        </button>
+
       </div>
     </div>
 

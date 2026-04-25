@@ -1,26 +1,44 @@
-<div class="servicios-container">
-  <div class="servicios-card">
+<div class="layout-reservas">
+
+  <aside class="panel-lateral">
+    <h2>Categorías</h2>
+
+    <div class="checklist-categorias">
+      <label>
+        <input
+          type="radio"
+          name="categoria"
+          [checked]="categoriaSeleccionada === ''"
+          (change)="seleccionarCategoria('')"
+        />
+        Todas las categorías
+      </label>
+
+      <label *ngFor="let categoria of categorias">
+        <input
+          type="radio"
+          name="categoria"
+          [checked]="categoriaSeleccionada == categoria.id"
+          (change)="seleccionarCategoria(categoria.id)"
+        />
+        {{ categoria.nombre }}
+      </label>
+    </div>
+  </aside>
+
+  <main class="contenido-centro">
 
     <div class="encabezado">
       <h1>Servicios Disponibles</h1>
       <a routerLink="/panel-usuario" class="btn-volver">Volver</a>
     </div>
 
-    <p *ngIf="mensaje">{{ mensaje }}</p>
-
-    <select [(ngModel)]="categoriaSeleccionada" name="categoriaSeleccionada">
-      <option value="">Todas las categorías</option>
-
-      <option *ngFor="let categoria of categorias" [value]="categoria.id">
-        {{ categoria.nombre }}
-      </option>
-    </select>
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
 
     <p *ngIf="cargando">Cargando servicios...</p>
 
-    <div *ngIf="!cargando && serviciosFiltrados().length > 0" class="lista-servicios">
+    <div class="lista-servicios" *ngIf="!cargando && serviciosFiltrados().length > 0">
       <div class="servicio-card" *ngFor="let servicio of serviciosFiltrados()">
-
         <h3>{{ servicio.nombre }}</h3>
         <p>{{ servicio.descripcion }}</p>
         <p><strong>Precio:</strong> ${{ servicio.precio }}</p>
@@ -29,7 +47,6 @@
         <button type="button" (click)="seleccionarServicio(servicio)">
           Seleccionar servicio
         </button>
-
       </div>
     </div>
 
@@ -39,12 +56,34 @@
 
     <hr />
 
+    <h2>Mis Reservas</h2>
+
+    <button type="button" (click)="cargarReservas()">
+      Actualizar reservas
+    </button>
+
+    <div class="reservas-lista" *ngIf="reservas.length > 0">
+      <div class="reserva-card" *ngFor="let reserva of reservas">
+        <h3>{{ reserva.servicio }}</h3>
+        <p><strong>Profesional:</strong> {{ reserva.profesional }}</p>
+        <p><strong>Fecha:</strong> {{ reserva.fecha | date:'dd/MM/yyyy' }}</p>
+        <p><strong>Hora:</strong> {{ reserva.hora }}</p>
+        <span class="estado">{{ reserva.estado }}</span>
+      </div>
+    </div>
+
+    <p *ngIf="reservas.length === 0">
+      No tienes reservas registradas
+    </p>
+
+  </main>
+
+  <aside class="panel-lateral">
     <h2>Realizar Reserva</h2>
 
     <div class="formulario-reserva">
       <select [(ngModel)]="reserva.servicio_id" name="servicio_id">
         <option value="">Seleccione servicio</option>
-
         <option *ngFor="let servicio of serviciosFiltrados()" [value]="servicio.id">
           {{ servicio.nombre }}
         </option>
@@ -52,20 +91,18 @@
 
       <select [(ngModel)]="reserva.profesional_id" name="profesional_id">
         <option value="">Seleccione profesional</option>
-
         <option *ngFor="let profesional of profesionales" [value]="profesional.id">
           {{ profesional.nombre }} - {{ profesional.especialidad }}
         </option>
       </select>
 
       <input type="date" [(ngModel)]="reserva.fecha" name="fecha" />
-
       <input type="time" [(ngModel)]="reserva.hora" name="hora" />
 
       <button type="button" (click)="crearReserva()">
         Reservar
       </button>
     </div>
+  </aside>
 
-  </div>
 </div>

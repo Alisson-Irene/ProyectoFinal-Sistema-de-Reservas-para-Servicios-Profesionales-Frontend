@@ -18,6 +18,7 @@ export class ServiciosUsuarioComponent implements OnInit {
   servicios: any[] = [];
   categorias: any[] = [];
   profesionales: any[] = [];
+  reservas: any[] = [];
 
   categoriaSeleccionada = '';
   cargando = true;
@@ -38,6 +39,7 @@ export class ServiciosUsuarioComponent implements OnInit {
     this.cargarCategorias();
     this.cargarServicios();
     this.cargarProfesionales();
+    this.cargarReservas();
   }
 
   obtenerUsuario(): void {
@@ -61,11 +63,6 @@ export class ServiciosUsuarioComponent implements OnInit {
       next: (res) => {
         this.servicios = res;
         this.cargando = false;
-
-        if (res.length === 0) {
-          this.mensaje = 'No hay servicios disponibles';
-        }
-
         this.cdr.detectChanges();
       },
       error: (err) => {
@@ -81,6 +78,24 @@ export class ServiciosUsuarioComponent implements OnInit {
       next: (res) => this.profesionales = res,
       error: (err) => console.error('Error profesionales:', err)
     });
+  }
+
+  cargarReservas(): void {
+    this.http.get<any[]>(`${this.api}/reservas`).subscribe({
+      next: (res) => {
+        this.reservas = res.filter(
+          r => Number(r.usuario_id) === Number(this.reserva.usuario_id)
+        );
+      },
+      error: (err) => {
+        console.error('Error reservas:', err);
+        this.mensaje = 'Error al cargar reservas';
+      }
+    });
+  }
+
+  seleccionarCategoria(id: any): void {
+    this.categoriaSeleccionada = id;
   }
 
   serviciosFiltrados(): any[] {
@@ -115,6 +130,7 @@ export class ServiciosUsuarioComponent implements OnInit {
     this.http.post<any>(`${this.api}/reservas`, this.reserva).subscribe({
       next: (res) => {
         this.mensaje = res?.message || 'Reserva creada correctamente';
+        this.cargarReservas();
 
         this.reserva.servicio_id = '';
         this.reserva.profesional_id = '';
