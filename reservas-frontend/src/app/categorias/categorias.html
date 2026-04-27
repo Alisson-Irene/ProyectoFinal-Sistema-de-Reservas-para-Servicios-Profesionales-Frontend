@@ -1,19 +1,42 @@
-<div class="categorias-container">
-  <div class="categorias-card">
-    <h1>Categorías</h1>
-
-    <p *ngIf="cargando">Cargando categorías...</p>
+<div class="gestion-container">
+  <div class="gestion-card">
+    <div class="encabezado">
+      <h1>Gestionar Categorias</h1>
+      <a routerLink="/dashboard" class="btn-volver">Volver al Dashboard</a>
+    </div>
 
     <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
 
-    <ul *ngIf="!cargando && categorias.length > 0">
+    <div class="formulario">
+      <input type="text" [(ngModel)]="categoria.nombre" name="nombre" placeholder="Nombre de la categoria" />
+
+      <div class="acciones-form">
+        <button type="button" (click)="guardarCategoria()">
+          {{ editando ? 'Actualizar Categoria' : 'Crear Categoria' }}
+        </button>
+
+        <button type="button" *ngIf="editando" class="btn-cancelar" (click)="cancelarEdicion()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <hr />
+
+    <h2>Categorias registradas</h2>
+    <p *ngIf="cargando">Cargando categorias...</p>
+
+    <ul class="lista" *ngIf="!cargando && categorias.length > 0">
       <li *ngFor="let c of categorias; let i = index">
-        {{ i + 1 }} - {{ c.nombre }}
+        <span>{{ i + 1 }} - {{ c.nombre }}</span>
+
+        <div class="acciones-item">
+          <button type="button" class="btn-editar" (click)="editarCategoria(c)">Editar</button>
+          <button type="button" class="btn-eliminar" (click)="eliminarCategoria(c.id)">Eliminar</button>
+        </div>
       </li>
     </ul>
 
-    <p *ngIf="!cargando && categorias.length === 0 && !mensaje">
-      No hay categorías registradas.
-    </p>
+    <p *ngIf="!cargando && categorias.length === 0">No hay categorias registradas.</p>
   </div>
 </div>

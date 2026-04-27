@@ -6,6 +6,8 @@ import { InventarioComponent } from './inventario/inventario';
 import { CambiarPasswordComponent } from './Sistema_De_Usuarios/Recuperacion/password';
 import { ServiciosUsuarioComponent } from './servicios-usuario/servicios-usuario';
 import { PanelUsuarioComponent } from './Sistema_De_Usuarios/panel-usuario/panel-usuario';
+import { FormasPagoComponent } from './formas-pago/formas-pago';
+import { ProfesionalesComponent } from './profesionales/profesionales';
 
 //  NUEVO IMPORT
 import { CategoriasComponent } from './categorias/categorias';
@@ -18,6 +20,8 @@ export const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'usuarios', component: UsuariosComponent },
   { path: 'inventario', component: InventarioComponent },
+  { path: 'profesionales', component: ProfesionalesComponent },
+  { path: 'formas-pago', component: FormasPagoComponent },
   { path: 'panel-usuario', component: PanelUsuarioComponent },
   { path: 'servicios-usuario', component: ServiciosUsuarioComponent },
 

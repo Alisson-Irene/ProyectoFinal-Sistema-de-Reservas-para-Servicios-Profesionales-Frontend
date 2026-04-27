@@ -1,0 +1,47 @@
+<div class="gestion-container">
+  <div class="gestion-card">
+    <div class="encabezado">
+      <h1>Gestionar Profesionales</h1>
+      <a routerLink="/dashboard" class="btn-volver">Volver al Dashboard</a>
+    </div>
+
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+    <div class="formulario">
+      <input type="text" [(ngModel)]="profesional.nombre" name="nombre" placeholder="Nombre" />
+      <input type="text" [(ngModel)]="profesional.especialidad" name="especialidad" placeholder="Especialidad" />
+      <input type="text" [(ngModel)]="profesional.telefono" name="telefono" placeholder="Telefono" />
+
+      <div class="acciones-form">
+        <button type="button" (click)="guardarProfesional()">
+          {{ editando ? 'Actualizar Profesional' : 'Crear Profesional' }}
+        </button>
+
+        <button type="button" *ngIf="editando" class="btn-cancelar" (click)="cancelarEdicion()">
+          Cancelar
+        </button>
+      </div>
+    </div>
+
+    <hr />
+
+    <h2>Profesionales registrados</h2>
+    <p *ngIf="cargando">Cargando profesionales...</p>
+
+    <ul class="lista" *ngIf="!cargando && profesionales.length > 0">
+      <li *ngFor="let p of profesionales; let i = index">
+        <span>
+          {{ i + 1 }} - {{ p.nombre }}
+          <small>{{ p.especialidad || 'Sin especialidad' }} - {{ p.telefono || 'Sin telefono' }}</small>
+        </span>
+
+        <div class="acciones-item">
+          <button type="button" class="btn-editar" (click)="editarProfesional(p)">Editar</button>
+          <button type="button" class="btn-eliminar" (click)="eliminarProfesional(p.id)">Eliminar</button>
+        </div>
+      </li>
+    </ul>
+
+    <p *ngIf="!cargando && profesionales.length === 0">No hay profesionales registrados.</p>
+  </div>
+</div>

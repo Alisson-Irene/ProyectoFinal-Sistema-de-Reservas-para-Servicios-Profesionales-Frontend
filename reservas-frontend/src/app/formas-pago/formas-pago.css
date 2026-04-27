@@ -1,23 +1,26 @@
-.inventario-container {
+.pagos-container {
   display: flex;
   justify-content: center;
+  min-height: 100vh;
   padding: 40px;
   background: #f5f6fa;
+  font-family: Arial, sans-serif;
 }
 
-.inventario-card {
+.pagos-card {
   width: 100%;
-  max-width: 800px;
+  max-width: 850px;
   background: white;
   padding: 25px;
   border-radius: 12px;
-  box-shadow: 0px 5px 20px rgba(0,0,0,0.1);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .encabezado {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 15px;
 }
 
 .btn-volver {
@@ -26,6 +29,7 @@
   padding: 8px 15px;
   border-radius: 6px;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .formulario {
@@ -42,85 +46,66 @@
   border: 1px solid #ccc;
 }
 
-.preview-imagen {
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  padding: 10px;
-}
-
-.preview-imagen img {
-  border-radius: 8px;
-  display: block;
-  max-height: 180px;
-  object-fit: cover;
-  width: 100%;
-}
-
-.acciones-form {
+.acciones-form,
+.acciones-item {
   display: flex;
   gap: 10px;
+  flex-wrap: wrap;
   margin-top: 10px;
 }
 
-.acciones-form button {
+button {
   padding: 10px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+button:not(.btn-cargar):not(.btn-editar):not(.btn-cancelar):not(.btn-eliminar) {
+  background: #10b981;
 }
 
 .btn-cargar {
   background: #3b82f6;
-  color: white;
 }
 
 .btn-editar {
   background: #f59e0b;
-  color: white;
 }
 
 .btn-cancelar {
   background: #6b7280;
-  color: white;
 }
 
-button:not(.btn-cargar):not(.btn-editar):not(.btn-cancelar) {
-  background: #10b981;
-  color: white;
+.btn-eliminar {
+  background: #ef4444;
 }
 
-.lista-servicios {
+.lista-pagos {
   list-style: none;
   padding: 0;
   margin-top: 15px;
 }
 
-.lista-servicios li {
+.lista-pagos li {
   background: #f1f5f9;
   padding: 12px;
   margin-bottom: 10px;
   border-radius: 8px;
 }
 
-.miniatura-servicio {
-  border-radius: 8px;
-  display: block;
-  height: 90px;
-  margin-top: 10px;
-  object-fit: cover;
-  width: 150px;
-}
-
-.acciones-item {
-  margin-top: 10px;
+.lista-pagos span {
   display: flex;
-  gap: 10px;
-}
-
-.btn-eliminar {
-  background: #ef4444;
-  color: white;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .badge {
@@ -129,4 +114,34 @@ button:not(.btn-cargar):not(.btn-editar):not(.btn-cancelar) {
   padding: 3px 8px;
   border-radius: 5px;
   font-size: 12px;
+}
+
+.mensaje {
+  background: #ecfdf5;
+  color: #047857;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background: #ddd;
+  margin: 30px 0;
+}
+
+@media (max-width: 700px) {
+  .pagos-container {
+    padding: 20px;
+  }
+
+  .encabezado {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .btn-volver {
+    white-space: normal;
+  }
 }

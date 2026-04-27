@@ -18,6 +18,7 @@
         <p><strong>ID:</strong> {{ r.id }}</p>
         <p><strong>Usuario:</strong> {{ r.usuario || r.usuario_id }}</p>
         <p><strong>Profesional:</strong> {{ r.profesional || r.profesional_id }}</p>
+        <p><strong>Forma de pago:</strong> {{ r.forma_pago || r.formaPago || r.forma_pago_id || 'No registrada' }}</p>
         <p><strong>Precio:</strong> ${{ r.precio || '0.00' }}</p>
         <p><strong>Fecha:</strong> {{ r.fecha | date:'dd/MM/yyyy' }}</p>
         <p><strong>Hora:</strong> {{ r.hora }}</p>

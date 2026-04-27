@@ -14,6 +14,12 @@
 
       <input type="number" [(ngModel)]="servicio.precio" name="precio" placeholder="Precio" />
 
+      <input type="url" [(ngModel)]="servicio.imagen_url" name="imagen_url" placeholder="URL de imagen del servicio" />
+
+      <div class="preview-imagen" *ngIf="servicio.imagen_url">
+        <img [src]="servicio.imagen_url" alt="Vista previa del servicio" />
+      </div>
+
       <select [(ngModel)]="servicio.categoria_id" name="categoria_id">
         <option value="">Seleccione una categoría</option>
         <option *ngFor="let categoria of categorias" [value]="categoria.id">
@@ -57,6 +63,8 @@
             - Categoría: {{ s.categoria || 'Sin categoría' }}
             - Estado: {{ s.estado || 'ACTIVO' }}
           </span>
+
+          <img class="miniatura-servicio" *ngIf="s.imagen_url" [src]="s.imagen_url" [alt]="s.nombre" />
 
           <div class="acciones-item">
             <button type="button" class="btn-editar" (click)="editarServicio(s)">

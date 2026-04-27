@@ -1,0 +1,75 @@
+<div class="pagos-container">
+  <div class="pagos-card">
+    <div class="encabezado">
+      <h1>Formas de Pago</h1>
+      <a routerLink="/dashboard" class="btn-volver">Volver al Dashboard</a>
+    </div>
+
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+    <div class="formulario">
+      <input
+        type="text"
+        [(ngModel)]="formaPago.nombre"
+        name="nombre"
+        placeholder="Nombre de la forma de pago"
+      />
+
+      <input
+        type="text"
+        [(ngModel)]="formaPago.descripcion"
+        name="descripcion"
+        placeholder="Descripcion"
+      />
+
+      <select [(ngModel)]="formaPago.estado" name="estado">
+        <option value="ACTIVO">ACTIVO</option>
+        <option value="INACTIVO">INACTIVO</option>
+      </select>
+
+      <div class="acciones-form">
+        <button type="button" (click)="guardarFormaPago()" [disabled]="guardando">
+          {{ editando ? 'Actualizar Forma de Pago' : 'Crear Forma de Pago' }}
+        </button>
+
+        <button type="button" *ngIf="editando" class="btn-cancelar" (click)="cancelarEdicion()">
+          Cancelar
+        </button>
+
+        <button type="button" class="btn-cargar" (click)="cargarFormasPago()" [disabled]="cargando">
+          Actualizar Lista
+        </button>
+      </div>
+    </div>
+
+    <hr />
+
+    <h2>Formas de pago registradas</h2>
+
+    <p *ngIf="cargando">Cargando formas de pago...</p>
+
+    <ul class="lista-pagos" *ngIf="!cargando && formasPago.length > 0">
+      <li *ngFor="let fp of formasPago; let i = index">
+        <span>
+          {{ i + 1 }} - {{ fp.nombre }}
+          <small *ngIf="fp.descripcion">- {{ fp.descripcion }}</small>
+          <strong class="badge">{{ fp.estado || 'ACTIVO' }}</strong>
+        </span>
+
+        <div class="acciones-item">
+          <button type="button" class="btn-editar" (click)="editarFormaPago(fp)">
+            Editar
+          </button>
+
+          <button type="button" class="btn-eliminar" (click)="eliminarFormaPago(fp.id)">
+            Eliminar
+          </button>
+        </div>
+      </li>
+    </ul>
+
+    <p *ngIf="!cargando && formasPago.length === 0">
+      No hay formas de pago registradas.
+    </p>
+  </div>
+</div>

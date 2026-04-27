@@ -21,7 +21,8 @@ export class InventarioComponent implements OnInit {
     descripcion: '',
     precio: null as number | null,
     categoria_id: '',
-    estado: 'ACTIVO'
+    estado: 'ACTIVO',
+    imagen_url: ''
   };
 
   categorias: any[] = [];
@@ -74,7 +75,8 @@ export class InventarioComponent implements OnInit {
       descripcion: this.servicio.descripcion.trim(),
       precio: this.servicio.precio,
       categoria_id: this.servicio.categoria_id || null,
-      estado: this.servicio.estado
+      estado: this.servicio.estado,
+      imagen_url: this.servicio.imagen_url.trim()
     };
 
     this.creandoServicio = true;
@@ -126,7 +128,8 @@ export class InventarioComponent implements OnInit {
       descripcion: servicio.descripcion,
       precio: Number(servicio.precio),
       categoria_id: servicio.categoria_id || '',
-      estado: servicio.estado || 'ACTIVO'
+      estado: servicio.estado || 'ACTIVO',
+      imagen_url: servicio.imagen_url || ''
     };
   }
 
@@ -150,7 +153,8 @@ export class InventarioComponent implements OnInit {
       descripcion: this.servicio.descripcion.trim(),
       precio: this.servicio.precio,
       categoria_id: this.servicio.categoria_id || null,
-      estado: this.servicio.estado
+      estado: this.servicio.estado,
+      imagen_url: this.servicio.imagen_url.trim()
     };
 
     this.http.put<any>(`${this.api}/servicios/${this.servicioEditandoId}`, datosActualizar).subscribe({
@@ -177,7 +181,8 @@ export class InventarioComponent implements OnInit {
       descripcion: '',
       precio: null,
       categoria_id: '',
-      estado: 'ACTIVO'
+      estado: 'ACTIVO',
+      imagen_url: ''
     };
 
     this.editando = false;
