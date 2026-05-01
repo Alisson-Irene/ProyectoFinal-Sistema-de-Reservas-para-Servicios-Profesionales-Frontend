@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,28 +13,29 @@ import { CommonModule } from '@angular/common';
 export class DashboardComponent {
   usuarioNombre = '';
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    const usuarioGuardado = localStorage.getItem('usuarioLogueado');
+    const usuario = this.authService.obtenerUsuario();
 
-    if (!usuarioGuardado) {
+    if (!usuario) {
       this.router.navigate(['/']);
       return;
     }
-
-    const usuario = JSON.parse(usuarioGuardado);
 
     if (usuario.rol !== 'admin') {
       this.router.navigate(['/panel-usuario']);
       return;
     }
 
-    this.usuarioNombre = usuario.nombre;
+    this.usuarioNombre = usuario.nombre || usuario.correo;
   }
 
   cerrarSesion() {
-    localStorage.removeItem('usuarioLogueado');
+    this.authService.cerrarSesion();
     this.router.navigate(['/']);
   }
 }

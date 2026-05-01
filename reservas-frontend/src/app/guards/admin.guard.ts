@@ -1,18 +1,17 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 export const adminGuard: CanActivateFn = () => {
   const router = inject(Router);
-  const usuarioGuardado = localStorage.getItem('usuarioLogueado');
+  const authService = inject(AuthService);
 
-  if (!usuarioGuardado) {
+  if (!authService.estaAutenticado()) {
     router.navigate(['/']);
     return false;
   }
 
-  const usuario = JSON.parse(usuarioGuardado);
-
-  if (usuario.rol === 'admin') {
+  if (authService.tieneRol('admin')) {
     return true;
   }
 

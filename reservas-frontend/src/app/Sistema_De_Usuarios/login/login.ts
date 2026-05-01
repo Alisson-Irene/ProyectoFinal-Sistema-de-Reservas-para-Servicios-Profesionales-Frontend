@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, CommonModule, RouterLink],
+  imports: [FormsModule, CommonModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
@@ -19,7 +20,11 @@ export class LoginComponent {
   mensaje = '';
   mostrarPassword = false;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   togglePassword() {
     this.mostrarPassword = !this.mostrarPassword;
@@ -40,7 +45,12 @@ export class LoginComponent {
       next: (res) => {
         this.mensaje = res.mensaje || 'Inicio de sesión correcto';
 
-        localStorage.setItem('usuarioLogueado', JSON.stringify(res.usuario));
+        if (!res.token || !res.usuario) {
+          this.mensaje = 'Respuesta de autenticación inválida';
+          return;
+        }
+
+        this.authService.guardarSesion(res.token, res.usuario);
 
         if (res.usuario.rol === 'admin') {
           this.router.navigate(['/dashboard']);

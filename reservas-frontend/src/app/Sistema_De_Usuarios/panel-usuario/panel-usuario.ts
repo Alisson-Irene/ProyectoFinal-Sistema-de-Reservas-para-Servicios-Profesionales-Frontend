@@ -3,6 +3,7 @@ import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Subscription, filter, finalize } from 'rxjs';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-panel-usuario',
@@ -22,24 +23,26 @@ export class PanelUsuarioComponent implements OnInit, OnDestroy {
   mensaje = '';
   private routerSubscription?: Subscription;
 
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(
+    private router: Router,
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    const usuarioGuardado = localStorage.getItem('usuarioLogueado');
+    const usuario = this.authService.obtenerUsuario();
 
-    if (!usuarioGuardado) {
+    if (!usuario) {
       this.router.navigate(['/']);
       return;
     }
-
-    const usuario = JSON.parse(usuarioGuardado);
 
     if (usuario.rol !== 'usuario') {
       this.router.navigate(['/dashboard']);
       return;
     }
 
-    this.usuarioNombre = usuario.nombre;
+    this.usuarioNombre = usuario.nombre || usuario.correo;
     this.usuarioId = Number(usuario.id);
     this.cargarReservas();
 
@@ -111,7 +114,7 @@ export class PanelUsuarioComponent implements OnInit, OnDestroy {
   }
 
   cerrarSesion() {
-    localStorage.removeItem('usuarioLogueado');
+    this.authService.cerrarSesion();
     this.router.navigate(['/']);
   }
 }
