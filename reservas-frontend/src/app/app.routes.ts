@@ -6,8 +6,12 @@ import { InventarioComponent } from './inventario/inventario';
 import { CambiarPasswordComponent } from './Sistema_De_Usuarios/Recuperacion/password';
 import { ServiciosUsuarioComponent } from './servicios-usuario/servicios-usuario';
 import { PanelUsuarioComponent } from './Sistema_De_Usuarios/panel-usuario/panel-usuario';
+import { FormasPagoComponent } from './formas-pago/formas-pago';
+import { ProfesionalesComponent } from './profesionales/profesionales';
+import { adminGuard } from './guards/admin.guard';
+import { usuarioGuard } from './guards/usuario.guard';
 
-// 👇 NUEVO IMPORT
+//  NUEVO IMPORT
 import { CategoriasComponent } from './categorias/categorias';
 
 
@@ -15,12 +19,17 @@ import { CategoriasComponent } from './categorias/categorias';
 export const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'cambiar-password', component: CambiarPasswordComponent },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'usuarios', component: UsuariosComponent },
-  { path: 'inventario', component: InventarioComponent },
-  { path: 'panel-usuario', component: PanelUsuarioComponent },
-  { path: 'servicios-usuario', component: ServiciosUsuarioComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [adminGuard] },
+  { path: 'usuarios', component: UsuariosComponent, canActivate: [adminGuard] },
+  { path: 'inventario', component: InventarioComponent, canActivate: [adminGuard] },
+  { path: 'profesionales', component: ProfesionalesComponent, canActivate: [adminGuard] },
+  { path: 'formas-pago', component: FormasPagoComponent, canActivate: [adminGuard] },
+  { path: 'panel-usuario', component: PanelUsuarioComponent, canActivate: [usuarioGuard] },
+  { path: 'servicios-usuario', component: ServiciosUsuarioComponent, canActivate: [usuarioGuard] },
 
-  // 👇 NUEVA RUTA
-  { path: 'categorias', component: CategoriasComponent }
+  // NUEVAs RUTAS
+  { path: 'categorias', component: CategoriasComponent, canActivate: [adminGuard] },
+
+  {path: 'reservas', loadComponent: () => import('./reservas/reservas').then(m => m.ReservasComponent), canActivate: [adminGuard]}
+
 ];

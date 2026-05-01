@@ -1,11 +1,90 @@
-<div class="dashboard-container">
-  <div class="dashboard-card">
-    <h1>Panel de Usuario</h1>
-    <p>Bienvenido, {{ usuarioNombre }}</p>
+<div class="usuario-home">
+  <header class="topbar">
+    <div class="marca">Reservas Pro</div>
 
-    <div class="menu-opciones">
-      <a routerLink="/servicios-usuario" class="btn opcion inventario">Ver Servicios</a>
-      <button type="button" class="btn salir" (click)="cerrarSesion()">Cerrar sesión</button>
+    <div class="acciones-superiores">
+      <span>{{ usuarioNombre }}</span>
+      <button type="button" class="btn-sesion" (click)="cerrarSesion()">Cerrar sesion</button>
     </div>
-  </div>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Panel de usuario</p>
+    <h1>Reserva servicios profesionales con facilidad</h1>
+    <p class="hero-text">
+      Encuentra servicios disponibles, agenda tu cita y consulta el estado de tus reservas desde un solo lugar.
+    </p>
+
+    <div class="hero-actions">
+      <a routerLink="/servicios-usuario" class="btn-principal">Buscar servicios</a>
+      <a routerLink="/servicios-usuario" class="btn-secundario">Ver mis reservas</a>
+    </div>
+  </section>
+
+  <main class="contenido-panel">
+    <section class="metricas">
+      <article>
+        <span>{{ reservas.length }}</span>
+        <p>Reservas totales</p>
+      </article>
+
+      <article>
+        <span>{{ contarReservasActivas() }}</span>
+        <p>Reservas activas</p>
+      </article>
+
+      <article>
+        <span>{{ proximaReserva ? '1' : '0' }}</span>
+        <p>Proxima cita</p>
+      </article>
+    </section>
+
+    <section class="grid-panel">
+      <article class="card-destacada">
+        <div class="card-header">
+          <div>
+            <p class="eyebrow">Siguiente reserva</p>
+            <h2>Tu proxima cita</h2>
+          </div>
+
+          <span class="estado" *ngIf="proximaReserva">{{ proximaReserva.estado }}</span>
+        </div>
+
+        <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+        <p *ngIf="cargandoReservas">Cargando tus reservas...</p>
+
+        <div class="reserva-preview" *ngIf="!cargandoReservas && proximaReserva">
+          <h3>{{ proximaReserva.servicio }}</h3>
+          <p><strong>Profesional:</strong> {{ proximaReserva.profesional }}</p>
+          <p><strong>Fecha:</strong> {{ proximaReserva.fecha | date:'dd/MM/yyyy' }}</p>
+          <p><strong>Hora:</strong> {{ proximaReserva.hora }}</p>
+          <p><strong>Forma de pago:</strong> {{ proximaReserva.forma_pago || 'No registrada' }}</p>
+        </div>
+
+        <div class="estado-vacio" *ngIf="!cargandoReservas && !proximaReserva">
+          <h3>No tienes una proxima reserva</h3>
+          <p>Explora servicios disponibles y agenda tu primera cita.</p>
+        </div>
+      </article>
+
+      <aside class="acciones-card">
+        <h2>Accesos rapidos</h2>
+
+        <a routerLink="/servicios-usuario" class="accion-item">
+          <span>Explorar servicios</span>
+          <small>Busca por categoria y agenda una cita</small>
+        </a>
+
+        <a routerLink="/servicios-usuario" class="accion-item">
+          <span>Mis reservas</span>
+          <small>Consulta estados y detalles de tus citas</small>
+        </a>
+
+        <button type="button" class="accion-item peligro" (click)="cerrarSesion()">
+          <span>Cerrar sesion</span>
+          <small>Salir de tu cuenta de forma segura</small>
+        </button>
+      </aside>
+    </section>
+  </main>
 </div>
