@@ -1,0 +1,105 @@
+<div class="mis-reservas-page">
+  <header class="topbar">
+    <a routerLink="/panel-usuario" class="marca">Reservas Pro</a>
+
+    <nav class="nav-links" aria-label="Navegacion principal">
+      <a routerLink="/panel-usuario">Inicio</a>
+      <a routerLink="/servicios">Reservar</a>
+      <a routerLink="/mis-reservas" class="activo">Mis reservas</a>
+    </nav>
+
+    <a routerLink="/perfil" class="perfil-link">Mi perfil</a>
+  </header>
+
+  <main class="contenido">
+    <section class="page-heading">
+      <p class="eyebrow">Panel de usuario</p>
+      <h1>Mis reservas</h1>
+      <p>Consulta el estado y los detalles de tus citas.</p>
+    </section>
+
+    <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+
+    <div class="tabs-reservas" role="tablist" aria-label="Filtros de reservas">
+      <button
+        type="button"
+        *ngFor="let estado of estados"
+        [class.activo]="filtroEstado === estado"
+        (click)="seleccionarFiltro(estado)"
+      >
+        {{ estado | titlecase }}
+      </button>
+    </div>
+
+    <p *ngIf="cargandoReservas" class="cargando">Cargando tus reservas...</p>
+
+    <section class="reservas-grid" *ngIf="!cargandoReservas && reservasFiltradas().length > 0">
+      <article class="reserva-card" *ngFor="let reserva of reservasFiltradas()">
+        <div class="reserva-header">
+          <div>
+            <p class="eyebrow">Servicio</p>
+            <h2>{{ reserva.servicio || 'Servicio no encontrado' }}</h2>
+          </div>
+          <span class="estado">{{ reserva.estado || 'PENDIENTE' }}</span>
+        </div>
+
+        <div class="detalle-grid">
+          <p><strong>Profesional</strong><span>{{ reserva.profesional || reserva.profesional_id || 'Sin asignar' }}</span></p>
+          <p><strong>Fecha</strong><span>{{ reserva.fecha | date:'dd/MM/yyyy' }}</span></p>
+          <p><strong>Hora</strong><span>{{ reserva.hora || 'Sin hora' }}</span></p>
+          <p><strong>Precio</strong><span>${{ reserva.precio || '0.00' }}</span></p>
+        </div>
+
+        <div class="acciones-card">
+          <button
+            type="button"
+            class="btn-cancelar"
+            *ngIf="puedeCancelar(reserva)"
+            (click)="solicitarCancelacion(reserva)"
+          >
+            Cancelar
+          </button>
+        </div>
+      </article>
+    </section>
+
+    <section class="estado-vacio" *ngIf="!cargandoReservas && reservasFiltradas().length === 0">
+      <h2>No tienes reservas registradas.</h2>
+      <p>Cuando reserves un servicio, lo veras aqui con su estado y detalles.</p>
+      <a routerLink="/servicios" class="btn-principal">Reservar servicio</a>
+    </section>
+  </main>
+</div>
+
+<div class="modal-backdrop" *ngIf="reservaParaCancelar">
+  <section class="modal-cancelacion" role="dialog" aria-modal="true" aria-labelledby="titulo-cancelacion">
+    <div class="modal-header">
+      <div>
+        <p class="eyebrow">Cancelacion de reserva</p>
+        <h2 id="titulo-cancelacion">Contacta al servicio requerido</h2>
+      </div>
+      <button type="button" class="btn-cerrar" (click)="cerrarAvisoCancelacion()">X</button>
+    </div>
+
+    <p>
+      Para cancelar esta cita, comunicate directamente con el servicio o profesional encargado.
+      Ellos confirmaran la disponibilidad y el proceso de cancelacion.
+    </p>
+
+    <div class="contacto-card">
+      <span>Telefono de contacto</span>
+      <strong>{{ obtenerTelefonoContacto(reservaParaCancelar) }}</strong>
+    </div>
+
+    <div class="detalle-cancelacion">
+      <p><strong>Servicio:</strong> {{ reservaParaCancelar.servicio || 'Servicio no encontrado' }}</p>
+      <p><strong>Profesional:</strong> {{ reservaParaCancelar.profesional || 'Sin asignar' }}</p>
+      <p><strong>Fecha:</strong> {{ reservaParaCancelar.fecha | date:'dd/MM/yyyy' }}</p>
+      <p><strong>Hora:</strong> {{ reservaParaCancelar.hora || 'Sin hora' }}</p>
+    </div>
+
+    <div class="acciones-modal">
+      <button type="button" class="btn-principal" (click)="cerrarAvisoCancelacion()">Entendido</button>
+    </div>
+  </section>
+</div>

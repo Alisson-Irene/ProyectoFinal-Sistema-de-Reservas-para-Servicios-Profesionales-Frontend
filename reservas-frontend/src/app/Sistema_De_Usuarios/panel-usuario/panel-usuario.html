@@ -1,90 +1,32 @@
 <div class="usuario-home">
   <header class="topbar">
-    <div class="marca">Reservas Pro</div>
+    <a routerLink="/panel-usuario" class="marca">Reservas Pro</a>
 
-    <div class="acciones-superiores">
-      <span>{{ usuarioNombre }}</span>
-      <button type="button" class="btn-sesion" (click)="cerrarSesion()">Cerrar sesion</button>
-    </div>
+    <nav class="nav-links" aria-label="Navegacion principal">
+      <a routerLink="/panel-usuario" class="activo">Inicio</a>
+      <a routerLink="/servicios">Reservar</a>
+      <a routerLink="/mis-reservas">Mis reservas</a>
+    </nav>
+
+    <a routerLink="/perfil" class="perfil-link">Mi perfil</a>
   </header>
 
-  <section class="hero">
-    <p class="eyebrow">Panel de usuario</p>
-    <h1>Reserva servicios profesionales con facilidad</h1>
-    <p class="hero-text">
-      Encuentra servicios disponibles, agenda tu cita y consulta el estado de tus reservas desde un solo lugar.
-    </p>
+  <main class="dashboard-minimal">
+    <section class="bienvenida">
+      <div class="bienvenida-acento"></div>
 
-    <div class="hero-actions">
-      <a routerLink="/servicios-usuario" class="btn-principal">Buscar servicios</a>
-      <a routerLink="/servicios-usuario" class="btn-secundario">Ver mis reservas</a>
-    </div>
-  </section>
+      <div class="bienvenida-contenido">
+        <p class="eyebrow"></p>
+        <h1>Hola, {{ usuarioNombre || 'Usuario' }}</h1>
+        <p class="hero-text">
+          Gestiona tus reservas, agenda nuevos servicios y consulta el estado de tus citas desde un solo lugar.
+        </p>
 
-  <main class="contenido-panel">
-    <section class="metricas">
-      <article>
-        <span>{{ reservas.length }}</span>
-        <p>Reservas totales</p>
-      </article>
-
-      <article>
-        <span>{{ contarReservasActivas() }}</span>
-        <p>Reservas activas</p>
-      </article>
-
-      <article>
-        <span>{{ proximaReserva ? '1' : '0' }}</span>
-        <p>Proxima cita</p>
-      </article>
-    </section>
-
-    <section class="grid-panel">
-      <article class="card-destacada">
-        <div class="card-header">
-          <div>
-            <p class="eyebrow">Siguiente reserva</p>
-            <h2>Tu proxima cita</h2>
-          </div>
-
-          <span class="estado" *ngIf="proximaReserva">{{ proximaReserva.estado }}</span>
+        <div class="hero-actions">
+          <a routerLink="/servicios" class="btn-principal">Reservar servicio</a>
+          <a routerLink="/mis-reservas" class="btn-secundario">Ver mis reservas</a>
         </div>
-
-        <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
-        <p *ngIf="cargandoReservas">Cargando tus reservas...</p>
-
-        <div class="reserva-preview" *ngIf="!cargandoReservas && proximaReserva">
-          <h3>{{ proximaReserva.servicio }}</h3>
-          <p><strong>Profesional:</strong> {{ proximaReserva.profesional }}</p>
-          <p><strong>Fecha:</strong> {{ proximaReserva.fecha | date:'dd/MM/yyyy' }}</p>
-          <p><strong>Hora:</strong> {{ proximaReserva.hora }}</p>
-          <p><strong>Forma de pago:</strong> {{ proximaReserva.forma_pago || 'No registrada' }}</p>
-        </div>
-
-        <div class="estado-vacio" *ngIf="!cargandoReservas && !proximaReserva">
-          <h3>No tienes una proxima reserva</h3>
-          <p>Explora servicios disponibles y agenda tu primera cita.</p>
-        </div>
-      </article>
-
-      <aside class="acciones-card">
-        <h2>Accesos rapidos</h2>
-
-        <a routerLink="/servicios-usuario" class="accion-item">
-          <span>Explorar servicios</span>
-          <small>Busca por categoria y agenda una cita</small>
-        </a>
-
-        <a routerLink="/servicios-usuario" class="accion-item">
-          <span>Mis reservas</span>
-          <small>Consulta estados y detalles de tus citas</small>
-        </a>
-
-        <button type="button" class="accion-item peligro" (click)="cerrarSesion()">
-          <span>Cerrar sesion</span>
-          <small>Salir de tu cuenta de forma segura</small>
-        </button>
-      </aside>
+      </div>
     </section>
   </main>
 </div>

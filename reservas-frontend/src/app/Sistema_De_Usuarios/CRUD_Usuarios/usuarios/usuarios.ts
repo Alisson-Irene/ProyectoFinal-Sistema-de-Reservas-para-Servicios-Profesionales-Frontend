@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -28,7 +28,10 @@ export class UsuariosComponent implements OnInit {
 
   editando = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.cargarUsuarios();
@@ -39,15 +42,32 @@ export class UsuariosComponent implements OnInit {
   }
 
   cargarUsuarios() {
-    this.http.get<any[]>(`${this.api}/usuarios`).subscribe({
+    this.http.get<any>(`${this.api}/usuarios`).subscribe({
       next: (data) => {
-        this.usuarios = data;
+        this.usuarios = this.obtenerListaUsuarios(data);
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.log(err);
         this.mensaje = err?.error?.mensaje || 'Error al cargar usuarios';
       }
     });
+  }
+
+  private obtenerListaUsuarios(respuesta: any): any[] {
+    if (Array.isArray(respuesta)) {
+      return respuesta;
+    }
+
+    if (Array.isArray(respuesta?.usuarios)) {
+      return respuesta.usuarios;
+    }
+
+    if (Array.isArray(respuesta?.data)) {
+      return respuesta.data;
+    }
+
+    return [];
   }
 
   guardarUsuario() {

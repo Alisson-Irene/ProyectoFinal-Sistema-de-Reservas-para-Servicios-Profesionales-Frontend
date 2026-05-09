@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +24,10 @@ export class CategoriasComponent implements OnInit {
     nombre: ''
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.cargarCategorias();
@@ -33,10 +36,11 @@ export class CategoriasComponent implements OnInit {
   cargarCategorias(): void {
     this.cargando = true;
 
-    this.http.get<any[]>(`${this.api}/categorias`).subscribe({
+    this.http.get<any>(`${this.api}/categorias`).subscribe({
       next: (res) => {
-        this.categorias = Array.isArray(res) ? res : [];
+        this.categorias = this.obtenerListaCategorias(res);
         this.cargando = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error categorias:', err);
@@ -44,6 +48,22 @@ export class CategoriasComponent implements OnInit {
         this.cargando = false;
       }
     });
+  }
+
+  private obtenerListaCategorias(respuesta: any): any[] {
+    if (Array.isArray(respuesta)) {
+      return respuesta;
+    }
+
+    if (Array.isArray(respuesta?.categorias)) {
+      return respuesta.categorias;
+    }
+
+    if (Array.isArray(respuesta?.data)) {
+      return respuesta.data;
+    }
+
+    return [];
   }
 
   guardarCategoria(): void {

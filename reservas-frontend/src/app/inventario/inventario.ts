@@ -41,6 +41,7 @@ export class InventarioComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarCategorias();
+    this.cargarServicios();
   }
 
   cargarCategorias(): void {
@@ -84,9 +85,9 @@ export class InventarioComponent implements OnInit {
     this.http.post<any>(`${this.api}/servicios`, datosEnviar).subscribe({
       next: (res) => {
         this.mensaje = res?.message || 'Servicio creado correctamente';
-        this.mostrarListaCompleta = false;
         this.limpiarServicio();
         this.creandoServicio = false;
+        this.cargarServicios();
       },
       error: (err) => {
         console.error(err);
@@ -104,11 +105,12 @@ export class InventarioComponent implements OnInit {
     this.mostrarListaCompleta = false;
     this.servicios = [];
 
-    this.http.get<any[]>(`${this.api}/servicios`).subscribe({
+    this.http.get<any>(`${this.api}/servicios`).subscribe({
       next: (res) => {
-        this.servicios = Array.isArray(res) ? res : [];
+        this.servicios = this.obtenerListaServicios(res);
         this.mostrarListaCompleta = true;
         this.cargandoServicios = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
@@ -116,6 +118,22 @@ export class InventarioComponent implements OnInit {
         this.cargandoServicios = false;
       }
     });
+  }
+
+  private obtenerListaServicios(respuesta: any): any[] {
+    if (Array.isArray(respuesta)) {
+      return respuesta;
+    }
+
+    if (Array.isArray(respuesta?.servicios)) {
+      return respuesta.servicios;
+    }
+
+    if (Array.isArray(respuesta?.data)) {
+      return respuesta.data;
+    }
+
+    return [];
   }
 
   editarServicio(servicio: any): void {

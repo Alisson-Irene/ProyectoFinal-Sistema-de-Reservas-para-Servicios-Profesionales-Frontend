@@ -38,10 +38,12 @@
   margin-top: 15px;
 }
 
-.formulario input {
+.formulario input,
+.formulario select {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  background: white;
 }
 
 .acciones-form,

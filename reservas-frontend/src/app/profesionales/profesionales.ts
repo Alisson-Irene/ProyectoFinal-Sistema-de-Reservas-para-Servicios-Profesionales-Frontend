@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -15,6 +15,13 @@ export class ProfesionalesComponent implements OnInit {
   api = 'http://localhost:3000/api';
 
   profesionales: any[] = [];
+  categorias: any[] = [];
+  categoriasBase = [
+    { id: 'soporte-tecnico', nombre: 'Soporte técnico' },
+    { id: 'mantenimiento', nombre: 'Mantenimiento' },
+    { id: 'diseno-desarrollo', nombre: 'Diseño y desarrollo' },
+    { id: 'capacitacion', nombre: 'Capacitación' }
+  ];
   mensaje = '';
   cargando = false;
   editando = false;
@@ -26,19 +33,36 @@ export class ProfesionalesComponent implements OnInit {
     telefono: ''
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
+    this.cargarCategorias();
     this.cargarProfesionales();
+  }
+
+  cargarCategorias(): void {
+    this.http.get<any[]>(`${this.api}/categorias`).subscribe({
+      next: (res) => {
+        this.categorias = Array.isArray(res) && res.length > 0 ? res : this.categoriasBase;
+      },
+      error: (err) => {
+        console.error('Error categorias profesionales:', err);
+        this.categorias = this.categoriasBase;
+      }
+    });
   }
 
   cargarProfesionales(): void {
     this.cargando = true;
 
-    this.http.get<any[]>(`${this.api}/profesionales`).subscribe({
+    this.http.get<any>(`${this.api}/profesionales`).subscribe({
       next: (res) => {
-        this.profesionales = Array.isArray(res) ? res : [];
+        this.profesionales = this.obtenerListaProfesionales(res);
         this.cargando = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
@@ -48,11 +72,32 @@ export class ProfesionalesComponent implements OnInit {
     });
   }
 
+  private obtenerListaProfesionales(respuesta: any): any[] {
+    if (Array.isArray(respuesta)) {
+      return respuesta;
+    }
+
+    if (Array.isArray(respuesta?.profesionales)) {
+      return respuesta.profesionales;
+    }
+
+    if (Array.isArray(respuesta?.data)) {
+      return respuesta.data;
+    }
+
+    return [];
+  }
+
   guardarProfesional(): void {
     this.mensaje = '';
 
     if (!this.profesional.nombre.trim()) {
       this.mensaje = 'Ingresa el nombre del profesional';
+      return;
+    }
+
+    if (!this.profesional.especialidad.trim()) {
+      this.mensaje = 'Selecciona la categoría o tipo de servicio del profesional';
       return;
     }
 

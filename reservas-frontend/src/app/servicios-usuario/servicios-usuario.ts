@@ -121,6 +121,10 @@ export class ServiciosUsuarioComponent implements OnInit {
     this.categoriaSeleccionada = id;
   }
 
+  servicioCambiado(): void {
+    this.reserva.profesional_id = '';
+  }
+
   serviciosFiltrados(): any[] {
     const busqueda = this.busquedaServicio.trim().toLowerCase();
 
@@ -139,7 +143,53 @@ export class ServiciosUsuarioComponent implements OnInit {
 
   seleccionarServicio(servicio: any): void {
     this.reserva.servicio_id = servicio.id;
+    this.reserva.profesional_id = '';
     this.mensaje = `Servicio seleccionado: ${servicio.nombre}`;
+  }
+
+  profesionalesFiltrados(): any[] {
+    const servicio = this.obtenerServicioSeleccionado();
+
+    if (!servicio) {
+      return [];
+    }
+
+    const criterios = [
+      servicio.nombre,
+      servicio.categoria,
+      servicio.descripcion
+    ].map(valor => this.normalizarTexto(valor)).filter(Boolean);
+
+    return this.profesionales.filter((profesional) => {
+      const especialidad = this.normalizarTexto(profesional.especialidad);
+      const nombre = this.normalizarTexto(profesional.nombre);
+      const palabrasEspecialidad = especialidad.split(/\s+/).filter(palabra => palabra.length >= 4);
+
+      if (!especialidad) {
+        return false;
+      }
+
+      const categoriaServicio = this.normalizarTexto(servicio.categoria);
+
+      if (categoriaServicio && especialidad === categoriaServicio) {
+        return true;
+      }
+
+      return criterios.some(criterio =>
+        especialidad.includes(criterio) ||
+        criterio.includes(especialidad) ||
+        nombre.includes(criterio) ||
+        palabrasEspecialidad.some(palabra => criterio.includes(palabra))
+      );
+    });
+  }
+
+  private normalizarTexto(valor: any): string {
+    return String(valor || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
   }
 
   obtenerImagenServicio(index: number): string {

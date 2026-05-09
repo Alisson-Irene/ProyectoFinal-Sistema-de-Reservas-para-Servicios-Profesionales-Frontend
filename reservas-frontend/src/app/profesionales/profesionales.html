@@ -9,7 +9,14 @@
 
     <div class="formulario">
       <input type="text" [(ngModel)]="profesional.nombre" name="nombre" placeholder="Nombre" />
-      <input type="text" [(ngModel)]="profesional.especialidad" name="especialidad" placeholder="Especialidad" />
+
+      <select [(ngModel)]="profesional.especialidad" name="especialidad">
+        <option value="">Seleccione una categoría o tipo de servicio</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria.nombre">
+          {{ categoria.nombre }}
+        </option>
+      </select>
+
       <input type="text" [(ngModel)]="profesional.telefono" name="telefono" placeholder="Telefono" />
 
       <div class="acciones-form">

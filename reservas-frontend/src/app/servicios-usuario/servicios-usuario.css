@@ -10,8 +10,9 @@
 
 .topbar-servicios {
   align-items: center;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: auto 1fr auto;
   margin: 0 auto;
   max-width: 1250px;
   padding: 24px 32px;
@@ -19,9 +20,30 @@
 
 .brand {
   color: #111827;
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 900;
   text-decoration: none;
+}
+
+.nav-links {
+  align-items: center;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.nav-links a {
+  border-radius: 999px;
+  color: #374151;
+  font-weight: 800;
+  padding: 10px 13px;
+  text-decoration: none;
+}
+
+.nav-links a.activo,
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.86);
+  color: #111827;
 }
 
 .nav-pill {
@@ -35,25 +57,33 @@
 }
 
 .hero-servicios {
-  margin: 48px auto 34px;
-  max-width: 1080px;
+  margin: 24px auto 28px;
+  max-width: 1250px;
   padding: 0 28px;
-  text-align: center;
 }
 
 .hero-servicios h1 {
-  font-size: 62px;
+  font-size: 42px;
   letter-spacing: 0;
-  line-height: 1.04;
+  line-height: 1.1;
   margin: 0;
 }
 
 .hero-servicios p {
   color: #374151;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1.45;
-  margin: 16px auto 0;
+  margin: 10px 0 0;
   max-width: 780px;
+}
+
+.eyebrow {
+  color: #7c3aed;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin: 0 0 7px;
+  text-transform: uppercase;
 }
 
 .search-bar {
@@ -65,7 +95,7 @@
   display: grid;
   gap: 0;
   grid-template-columns: 1.25fr 1.15fr 0.9fr auto;
-  margin: 34px auto 0;
+  margin: 24px 0 0;
   max-width: 980px;
   padding: 8px;
   text-align: left;
@@ -121,7 +151,7 @@ input {
 .contenido-servicios {
   display: grid;
   gap: 26px;
-  grid-template-columns: minmax(0, 1fr) 330px;
+  grid-template-columns: minmax(0, 1fr) 350px;
   margin: 0 auto;
   max-width: 1250px;
   padding: 0 32px 46px;
@@ -195,24 +225,28 @@ input {
 
 .servicios-grid {
   display: grid;
-  gap: 24px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .servicio-card {
+  background: rgba(255, 255, 255, 0.93);
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.08);
   min-width: 0;
+  overflow: hidden;
 }
 
 .servicio-card img {
   aspect-ratio: 16 / 9;
-  border-radius: 10px;
   display: block;
   object-fit: cover;
   width: 100%;
 }
 
 .servicio-info {
-  padding-top: 12px;
+  padding: 16px;
 }
 
 .servicio-title-row {
@@ -302,6 +336,20 @@ input {
   gap: 13px;
 }
 
+.formulario-reserva label {
+  display: block;
+}
+
+.formulario-reserva label span,
+.form-label {
+  color: #4b5563;
+  display: block;
+  font-size: 12px;
+  font-weight: 900;
+  margin-bottom: 7px;
+  text-transform: uppercase;
+}
+
 .formulario-reserva select,
 .formulario-reserva input,
 .bloque-pago input {
@@ -310,6 +358,22 @@ input {
   border-radius: 11px;
   min-height: 43px;
   padding: 10px 12px;
+}
+
+.formulario-reserva select:disabled {
+  background: #f3f4f6;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.ayuda-profesional {
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-radius: 11px;
+  color: #9a3412;
+  line-height: 1.35;
+  margin: 0;
+  padding: 11px 12px;
 }
 
 .pago-opciones {
@@ -363,44 +427,6 @@ input {
   display: block;
   font-weight: 900;
   margin-top: 9px;
-}
-
-.pasos-reserva {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 48px;
-}
-
-.pasos-reserva article {
-  background: rgba(255, 255, 255, 0.93);
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.07);
-  padding: 18px;
-}
-
-.pasos-reserva span {
-  align-items: center;
-  background: #111827;
-  border-radius: 999px;
-  color: white;
-  display: flex;
-  font-weight: 900;
-  height: 34px;
-  justify-content: center;
-  width: 34px;
-}
-
-.pasos-reserva h3 {
-  font-size: 18px;
-  margin: 14px 0 8px;
-}
-
-.pasos-reserva p {
-  color: #6b7280;
-  line-height: 1.4;
-  margin: 0;
 }
 
 .modal-backdrop {
@@ -520,8 +546,7 @@ input {
 
 @media (max-width: 1100px) {
   .contenido-servicios,
-  .servicios-grid,
-  .pasos-reserva {
+  .servicios-grid {
     grid-template-columns: 1fr 1fr;
   }
 
@@ -532,14 +557,21 @@ input {
 }
 
 @media (max-width: 780px) {
+  .topbar-servicios {
+    grid-template-columns: 1fr;
+  }
+
+  .nav-links {
+    justify-content: flex-start;
+  }
+
   .hero-servicios h1 {
-    font-size: 42px;
+    font-size: 36px;
   }
 
   .search-bar,
   .contenido-servicios,
-  .servicios-grid,
-  .pasos-reserva {
+  .servicios-grid {
     grid-template-columns: 1fr;
   }
 
@@ -557,11 +589,16 @@ input {
 @media (max-width: 520px) {
   .topbar-servicios {
     align-items: flex-start;
-    flex-direction: column;
   }
 
   .hero-servicios h1 {
     font-size: 34px;
+  }
+
+  .nav-links {
+    align-items: stretch;
+    flex-direction: column;
+    width: 100%;
   }
 
   .campos-tarjeta,

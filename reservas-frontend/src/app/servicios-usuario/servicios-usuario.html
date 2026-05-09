@@ -1,12 +1,20 @@
 <div class="servicios-page">
   <header class="topbar-servicios">
     <a routerLink="/panel-usuario" class="brand">Reservas Pro</a>
-    <a routerLink="/panel-usuario" class="nav-pill">Volver al panel</a>
+
+    <nav class="nav-links" aria-label="Navegacion principal">
+      <a routerLink="/panel-usuario">Inicio</a>
+      <a routerLink="/servicios" class="activo">Reservar</a>
+      <a routerLink="/mis-reservas">Mis reservas</a>
+    </nav>
+
+    <a routerLink="/perfil" class="nav-pill">Mi perfil</a>
   </header>
 
   <section class="hero-servicios">
-    <h1>Reserva servicios profesionales</h1>
-    <p>Explora servicios disponibles, elige un profesional y confirma tu cita con pago simulado.</p>
+    <p class="eyebrow">Servicios disponibles</p>
+    <h1>Reservar un servicio</h1>
+    <p>Explora los servicios disponibles, elige un profesional y agenda tu cita.</p>
 
     <div class="search-bar buscador-simple">
       <div class="search-field">
@@ -27,8 +35,8 @@
     <section class="catalogo">
       <div class="section-heading">
         <div>
-          <h2>Recomendado</h2>
-          <p>Servicios disponibles para reservar hoy.</p>
+          <h2>Catalogo de servicios</h2>
+          <p>Filtra por categoria o busca el servicio que necesitas.</p>
         </div>
       </div>
 
@@ -62,7 +70,7 @@
           <div class="servicio-info">
             <div class="servicio-title-row">
               <h3>{{ servicio.nombre }}</h3>
-              <span class="rating">★ 5.0</span>
+              <span class="rating">5.0</span>
             </div>
 
             <p>{{ servicio.descripcion }}</p>
@@ -81,60 +89,65 @@
       <p *ngIf="!cargando && serviciosFiltrados().length === 0">
         No hay servicios disponibles para esta categoria.
       </p>
-
-      <section class="pasos-reserva">
-        <article>
-          <span>1</span>
-          <h3>Elige un servicio</h3>
-          <p>Explora las opciones disponibles y selecciona la que necesitas.</p>
-        </article>
-
-        <article>
-          <span>2</span>
-          <h3>Agenda tu cita</h3>
-          <p>Selecciona profesional, fecha y hora para tu reserva.</p>
-        </article>
-
-        <article>
-          <span>3</span>
-          <h3>Confirma el pago</h3>
-          <p>Completa la simulacion de pago y registra tu reserva.</p>
-        </article>
-      </section>
     </section>
 
     <aside class="reserva-panel">
-      <p class="panel-label">Resumen</p>
-      <h2>Realizar Reserva</h2>
+      <p class="panel-label">Agenda</p>
+      <h2>Realizar reserva</h2>
 
       <div class="formulario-reserva">
-        <select [(ngModel)]="reserva.servicio_id" name="servicio_id">
-          <option value="">Seleccione servicio</option>
-          <option *ngFor="let servicio of serviciosFiltrados()" [value]="servicio.id">
-            {{ servicio.nombre }}
-          </option>
-        </select>
+        <label>
+          <span>Servicio</span>
+          <select [(ngModel)]="reserva.servicio_id" name="servicio_id" (ngModelChange)="servicioCambiado()">
+            <option value="">Seleccione servicio</option>
+            <option *ngFor="let servicio of servicios" [value]="servicio.id">
+              {{ servicio.nombre }}
+            </option>
+          </select>
+        </label>
 
-        <select [(ngModel)]="reserva.profesional_id" name="profesional_id">
-          <option value="">Seleccione profesional</option>
-          <option *ngFor="let profesional of profesionales" [value]="profesional.id">
-            {{ profesional.nombre }} - {{ profesional.especialidad }}
-          </option>
-        </select>
-
-        <div class="pago-opciones">
-          <button
-            type="button"
-            *ngFor="let formaPago of formasPago"
-            [class.activo]="reserva.forma_pago_id == formaPago.id"
-            (click)="reserva.forma_pago_id = formaPago.id"
+        <label>
+          <span>Profesional</span>
+          <select
+            [(ngModel)]="reserva.profesional_id"
+            name="profesional_id"
+            [disabled]="!reserva.servicio_id || profesionalesFiltrados().length === 0"
           >
-            {{ formaPago.nombre }}
-          </button>
+            <option value="" *ngIf="!reserva.servicio_id">Primero seleccione un servicio</option>
+            <option value="" *ngIf="reserva.servicio_id">Seleccione profesional</option>
+            <option *ngFor="let profesional of profesionalesFiltrados()" [value]="profesional.id">
+              {{ profesional.nombre }} - {{ profesional.especialidad }}
+            </option>
+          </select>
+        </label>
+
+        <p class="ayuda-profesional" *ngIf="reserva.servicio_id && profesionalesFiltrados().length === 0">
+          No hay profesionales registrados para este tipo de servicio.
+        </p>
+
+        <div>
+          <span class="form-label">Forma de pago</span>
+          <div class="pago-opciones">
+            <button
+              type="button"
+              *ngFor="let formaPago of formasPago"
+              [class.activo]="reserva.forma_pago_id == formaPago.id"
+              (click)="reserva.forma_pago_id = formaPago.id"
+            >
+              {{ formaPago.nombre }}
+            </button>
+          </div>
         </div>
 
-        <input type="date" [(ngModel)]="reserva.fecha" name="fecha" />
-        <input type="time" [(ngModel)]="reserva.hora" name="hora" />
+        <label>
+          <span>Fecha</span>
+          <input type="date" [(ngModel)]="reserva.fecha" name="fecha" />
+        </label>
+
+        <label>
+          <span>Hora</span>
+          <input type="time" [(ngModel)]="reserva.hora" name="hora" />
+        </label>
 
         <div class="resumen-reserva" *ngIf="obtenerServicioSeleccionado()">
           <p>Servicio</p>

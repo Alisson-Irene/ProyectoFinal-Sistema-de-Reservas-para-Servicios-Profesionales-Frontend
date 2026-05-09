@@ -1,0 +1,30 @@
+<div class="perfil-page">
+  <header class="topbar">
+    <a routerLink="/panel-usuario" class="marca">Reservas Pro</a>
+
+    <nav class="nav-links" aria-label="Navegacion principal">
+      <a routerLink="/panel-usuario">Inicio</a>
+      <a routerLink="/servicios">Reservar</a>
+      <a routerLink="/mis-reservas">Mis reservas</a>
+    </nav>
+
+    <a routerLink="/perfil" class="perfil-link activo">Mi perfil</a>
+  </header>
+
+  <main class="contenido-perfil">
+    <section class="perfil-card">
+      <p class="eyebrow">Cuenta</p>
+      <h1>Mi perfil</h1>
+
+      <div class="datos-usuario">
+        <p><strong>Nombre:</strong> {{ usuario?.nombre || 'Usuario' }}</p>
+        <p><strong>Correo:</strong> {{ usuario?.correo || 'No registrado' }}</p>
+        <p><strong>Rol:</strong> {{ obtenerRol() }}</p>
+      </div>
+
+      <div class="acciones-perfil">
+        <button type="button" class="btn-principal" (click)="cerrarSesion()">Cerrar sesion</button>
+      </div>
+    </section>
+  </main>
+</div>

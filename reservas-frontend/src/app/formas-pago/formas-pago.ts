@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -27,7 +27,10 @@ export class FormasPagoComponent implements OnInit {
     estado: 'ACTIVO'
   };
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.cargarFormasPago();
@@ -39,10 +42,11 @@ export class FormasPagoComponent implements OnInit {
     this.mensaje = '';
     this.cargando = true;
 
-    this.http.get<any[]>(`${this.api}/formas-pago`).subscribe({
+    this.http.get<any>(`${this.api}/formas-pago`).subscribe({
       next: (res) => {
-        this.formasPago = Array.isArray(res) ? res : [];
+        this.formasPago = this.obtenerListaFormasPago(res);
         this.cargando = false;
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error(err);
@@ -50,6 +54,26 @@ export class FormasPagoComponent implements OnInit {
         this.cargando = false;
       }
     });
+  }
+
+  private obtenerListaFormasPago(respuesta: any): any[] {
+    if (Array.isArray(respuesta)) {
+      return respuesta;
+    }
+
+    if (Array.isArray(respuesta?.formasPago)) {
+      return respuesta.formasPago;
+    }
+
+    if (Array.isArray(respuesta?.formas_pago)) {
+      return respuesta.formas_pago;
+    }
+
+    if (Array.isArray(respuesta?.data)) {
+      return respuesta.data;
+    }
+
+    return [];
   }
 
   guardarFormaPago(): void {
