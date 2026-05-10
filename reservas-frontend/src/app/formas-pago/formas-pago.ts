@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { API_BASE_URL } from '../config/api.config';
 
 @Component({
   selector: 'app-formas-pago',
@@ -12,7 +13,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './formas-pago.css'
 })
 export class FormasPagoComponent implements OnInit {
-  api = 'http://localhost:3000/api';
+  api = API_BASE_URL;
 
   formasPago: any[] = [];
   mensaje = '';

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router, RouterModule } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { API_BASE_URL } from '../config/api.config';
 
 @Component({
   selector: 'app-mis-reservas',
@@ -13,7 +14,7 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './mis-reservas.css'
 })
 export class MisReservasComponent implements OnInit {
-  api = 'http://localhost:3000/api';
+  api = API_BASE_URL;
 
   usuarioNombre = 'Usuario';
   usuarioId = 0;

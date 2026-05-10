@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { API_BASE_URL } from '../config/api.config';
 
 @Component({
   selector: 'app-inventario',
@@ -12,7 +13,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './inventario.css'
 })
 export class InventarioComponent implements OnInit {
-  api = 'http://localhost:3000/api';
+  api = API_BASE_URL;
 
   mensaje = '';
 

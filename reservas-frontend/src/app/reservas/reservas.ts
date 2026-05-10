@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { API_BASE_URL } from '../config/api.config';
 
 @Component({
   selector: 'app-reservas',
@@ -12,7 +13,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './reservas.css'
 })
 export class ReservasComponent implements OnInit {
-  api = 'http://localhost:3000/api';
+  api = API_BASE_URL;
 
   reservas: any[] = [];
   mensaje = '';

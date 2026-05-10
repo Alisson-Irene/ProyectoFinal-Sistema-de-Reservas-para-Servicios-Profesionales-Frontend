@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { API_BASE_URL } from '../../config/api.config';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.css'
 })
 export class LoginComponent {
-  api = 'http://localhost:3000/api';
+  api = API_BASE_URL;
 
   correo = '';
   password = '';

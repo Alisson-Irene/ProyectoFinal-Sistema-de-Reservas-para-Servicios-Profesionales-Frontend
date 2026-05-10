@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router, RouterLink } from '@angular/router';
+import { API_BASE_URL } from '../../config/api.config';
 
 @Component({
   selector: 'app-cambiar-password',
@@ -13,7 +14,7 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class CambiarPasswordComponent {
 
-  api = 'http://localhost:3000/api';
+  api = API_BASE_URL;
 
   datos = {
     correo: '',
