@@ -1,3 +1,3 @@
 window.__env = {
-  API_BASE_URL: 'https://backend-reservas-ruvd.onrender.com/api'
+  API_BASE_URL: '${API_BASE_URL}'
 };
