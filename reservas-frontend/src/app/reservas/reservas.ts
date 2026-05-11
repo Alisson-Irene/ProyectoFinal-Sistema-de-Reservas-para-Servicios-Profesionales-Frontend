@@ -17,6 +17,7 @@ export class ReservasComponent implements OnInit {
 
   reservas: any[] = [];
   mensaje = '';
+  eliminandoId: number | null = null;
 
   constructor(
     private http: HttpClient,
@@ -57,6 +58,28 @@ export class ReservasComponent implements OnInit {
       error: (err) => {
         console.error(err);
         this.mensaje = err?.error?.message || 'Error al actualizar reserva';
+      }
+    });
+  }
+
+  eliminarReserva(reserva: any): void {
+    const confirmar = confirm(`Seguro que deseas eliminar la reserva ID ${reserva.id}?`);
+
+    if (!confirmar) {
+      return;
+    }
+
+    this.eliminandoId = reserva.id;
+    this.http.delete<any>(`${this.api}/reservas/${reserva.id}`).subscribe({
+      next: (res) => {
+        this.mensaje = res.message || 'Reserva eliminada correctamente';
+        this.eliminandoId = null;
+        this.cargarReservas();
+      },
+      error: (err) => {
+        console.error(err);
+        this.mensaje = err?.error?.message || 'Error al eliminar reserva';
+        this.eliminandoId = null;
       }
     });
   }

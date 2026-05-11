@@ -31,9 +31,20 @@
           <option value="FINALIZADA">FINALIZADA</option>
         </select>
 
-        <button type="button" (click)="actualizarEstado(r)">
-          Guardar cambios
-        </button>
+        <div class="acciones-reserva">
+          <button type="button" (click)="actualizarEstado(r)">
+            Guardar cambios
+          </button>
+
+          <button
+            type="button"
+            class="btn-eliminar"
+            (click)="eliminarReserva(r)"
+            [disabled]="eliminandoId === r.id"
+          >
+            {{ eliminandoId === r.id ? 'Eliminando...' : 'Eliminar' }}
+          </button>
+        </div>
 
       </div>
     </div>

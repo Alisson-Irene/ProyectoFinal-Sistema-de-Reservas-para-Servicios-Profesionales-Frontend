@@ -79,6 +79,25 @@ button:hover {
   background: #e68900;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.acciones-reserva {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-eliminar {
+  background: #dc2626;
+}
+
+.btn-eliminar:hover {
+  background: #b91c1c;
+}
+
 .mensaje {
   background: #fff3e0;
   color: #e68900;
