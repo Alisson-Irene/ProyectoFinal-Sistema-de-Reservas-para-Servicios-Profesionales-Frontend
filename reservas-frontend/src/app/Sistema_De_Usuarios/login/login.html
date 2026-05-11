@@ -1,74 +1,148 @@
 <div class="login-container">
-  <div class="login-card">
-    <h1>{{ modoRegistro ? 'Crear cuenta' : 'Login' }}</h1>
-    <p>{{ modoRegistro ? 'Registrate como usuario' : 'Ingresa al sistema' }}</p>
-
-    <ng-container *ngIf="!modoRegistro; else registroForm">
-      <input
-        type="email"
-        [(ngModel)]="correo"
-        placeholder="Correo"
-      >
-
-      <div class="password-container">
-        <input
-          class="password-input"
-          [type]="mostrarPassword ? 'text' : 'password'"
-          [(ngModel)]="password"
-          placeholder="Contrasena"
-        >
-
-        <button type="button" (click)="togglePassword()" class="btn-eye">
-          {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
-        </button>
+  <section class="login-shell">
+    <div class="brand-panel">
+      <div class="logo-hero" aria-hidden="true">
+        <svg viewBox="0 0 240 210" role="img">
+          <defs>
+            <linearGradient id="logoGradient" x1="34" y1="32" x2="205" y2="171" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#f47ac2"></stop>
+              <stop offset="1" stop-color="#5b7cfa"></stop>
+            </linearGradient>
+          </defs>
+          <path class="logo-fill" d="M55 48h130c18 0 32 14 32 32v72c0 18-14 32-32 32H55c-18 0-32-14-32-32V80c0-18 14-32 32-32Z"></path>
+          <path class="logo-cut" d="M58 85h124c7 0 12 5 12 12v55c0 7-5 12-12 12H58c-7 0-12-5-12-12V97c0-7 5-12 12-12Z"></path>
+          <path class="logo-ring" d="M69 28v32M171 28v32"></path>
+          <g class="logo-grid">
+            <rect x="67" y="107" width="24" height="24" rx="6"></rect>
+            <rect x="103" y="107" width="24" height="24" rx="6"></rect>
+            <rect x="139" y="107" width="24" height="24" rx="6"></rect>
+            <rect x="67" y="142" width="24" height="24" rx="6"></rect>
+            <rect x="103" y="142" width="24" height="24" rx="6"></rect>
+            <rect x="139" y="142" width="24" height="24" rx="6"></rect>
+          </g>
+          <circle class="logo-badge" cx="178" cy="157" r="39"></circle>
+          <path class="logo-check" d="m160 157 13 13 27-31"></path>
+        </svg>
       </div>
 
-      <button type="button" (click)="iniciarSesion()" [disabled]="cargando">
-        {{ cargando ? 'Ingresando...' : 'Iniciar sesion' }}
-      </button>
-    </ng-container>
-
-    <ng-template #registroForm>
-      <input
-        type="text"
-        [(ngModel)]="registro.nombre"
-        placeholder="Nombre"
-      >
-
-      <input
-        type="email"
-        [(ngModel)]="registro.correo"
-        placeholder="Correo"
-      >
-
-      <div class="password-container">
-        <input
-          class="password-input"
-          [type]="mostrarPassword ? 'text' : 'password'"
-          [(ngModel)]="registro.password"
-          placeholder="Contrasena"
-        >
-
-        <button type="button" (click)="togglePassword()" class="btn-eye">
-          {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
-        </button>
+      <div class="brand-copy">
+        <p class="eyebrow">Sistema de Reserva</p>
+        <h1>Agenda tus servicios con facilidad</h1>
+        <p>
+          Reserva, consulta y gestiona tus citas desde una experiencia rapida,
+          clara y moderna.
+        </p>
       </div>
+    </div>
 
-      <input
-        [type]="mostrarPassword ? 'text' : 'password'"
-        [(ngModel)]="registro.confirmarPassword"
-        placeholder="Confirmar contrasena"
-      >
+    <div class="form-panel">
+      <div class="login-card">
+        <div class="form-header">
+          <span class="small-logo" aria-hidden="true">
+            <svg viewBox="0 0 48 48">
+              <rect x="9" y="11" width="30" height="28" rx="8"></rect>
+              <path d="M16 9v7M32 9v7M15 21h18"></path>
+              <path d="m18 29 4 4 8-9"></path>
+            </svg>
+          </span>
+          <div>
+            <h2>{{ modoRegistro ? 'Crear cuenta' : 'Bienvenido' }}</h2>
+            <p>{{ modoRegistro ? 'Registrate como usuario' : 'Ingresa al sistema' }}</p>
+          </div>
+        </div>
 
-      <button type="button" (click)="registrarUsuario()" [disabled]="cargando">
-        {{ cargando ? 'Registrando...' : 'Registrarse' }}
-      </button>
-    </ng-template>
+        <ng-container *ngIf="!modoRegistro; else registroForm">
+          <div class="field">
+            <label for="login-correo">Correo</label>
+            <input
+              id="login-correo"
+              type="email"
+              [(ngModel)]="correo"
+              placeholder="tu@email.com"
+            >
+          </div>
 
-    <button type="button" class="btn-link" (click)="cambiarModo()" [disabled]="cargando">
-      {{ modoRegistro ? 'Ya tengo cuenta' : 'Crear cuenta de usuario' }}
-    </button>
+          <div class="field">
+            <label for="login-password">Contrasena</label>
+            <div class="password-container">
+              <input
+                id="login-password"
+                class="password-input"
+                [type]="mostrarPassword ? 'text' : 'password'"
+                [(ngModel)]="password"
+                placeholder="Ingresa tu contrasena"
+              >
 
-    <p class="mensaje">{{ mensaje }}</p>
-  </div>
+              <button type="button" (click)="togglePassword()" class="btn-eye">
+                {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
+              </button>
+            </div>
+          </div>
+
+          <button class="btn-primary" type="button" (click)="iniciarSesion()" [disabled]="cargando">
+            {{ cargando ? 'Ingresando...' : 'Iniciar sesion' }}
+          </button>
+        </ng-container>
+
+        <ng-template #registroForm>
+          <div class="field">
+            <label for="registro-nombre">Nombre</label>
+            <input
+              id="registro-nombre"
+              type="text"
+              [(ngModel)]="registro.nombre"
+              placeholder="Tu nombre"
+            >
+          </div>
+
+          <div class="field">
+            <label for="registro-correo">Correo</label>
+            <input
+              id="registro-correo"
+              type="email"
+              [(ngModel)]="registro.correo"
+              placeholder="tu@email.com"
+            >
+          </div>
+
+          <div class="field">
+            <label for="registro-password">Contrasena</label>
+            <div class="password-container">
+              <input
+                id="registro-password"
+                class="password-input"
+                [type]="mostrarPassword ? 'text' : 'password'"
+                [(ngModel)]="registro.password"
+                placeholder="Crea una contrasena"
+              >
+
+              <button type="button" (click)="togglePassword()" class="btn-eye">
+                {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
+              </button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="registro-confirmar">Confirmar contrasena</label>
+            <input
+              id="registro-confirmar"
+              [type]="mostrarPassword ? 'text' : 'password'"
+              [(ngModel)]="registro.confirmarPassword"
+              placeholder="Repite tu contrasena"
+            >
+          </div>
+
+          <button class="btn-primary" type="button" (click)="registrarUsuario()" [disabled]="cargando">
+            {{ cargando ? 'Registrando...' : 'Registrarse' }}
+          </button>
+        </ng-template>
+
+        <button type="button" class="btn-link" (click)="cambiarModo()" [disabled]="cargando">
+          {{ modoRegistro ? 'Ya tengo cuenta' : 'Crear cuenta de usuario' }}
+        </button>
+
+        <p class="mensaje" *ngIf="mensaje">{{ mensaje }}</p>
+      </div>
+    </div>
+  </section>
 </div>
