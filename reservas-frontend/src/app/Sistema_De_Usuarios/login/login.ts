@@ -124,17 +124,23 @@ export class LoginComponent {
       },
       error: (err) => {
         this.cargando = false;
+        const mensajeBackend = err?.error?.mensaje || '';
+
         if (err?.status === 404) {
           this.mensaje = 'El backend aun no tiene habilitado el registro publico';
           return;
         }
 
-        if (err?.status === 401 || err?.status === 403) {
+        if (
+          err?.status === 401 ||
+          err?.status === 403 ||
+          mensajeBackend.toLowerCase().includes('token')
+        ) {
           this.mensaje = 'El registro publico no esta permitido en el backend';
           return;
         }
 
-        this.mensaje = err?.error?.mensaje || 'Error al registrar usuario';
+        this.mensaje = mensajeBackend || 'Error al registrar usuario';
       }
     });
   }
