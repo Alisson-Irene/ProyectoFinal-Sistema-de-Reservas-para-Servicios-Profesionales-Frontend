@@ -1,6 +1,15 @@
 <div class="usuario-home">
   <header class="topbar">
-    <a routerLink="/panel-usuario" class="marca">Sistema de Reservas</a>
+    <a routerLink="/panel-usuario" class="marca" aria-label="Sistema de Reserva">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" role="img">
+          <rect x="9" y="11" width="30" height="28" rx="8"></rect>
+          <path d="M16 9v7M32 9v7M15 21h18"></path>
+          <path d="m18 29 4 4 8-9"></path>
+        </svg>
+      </span>
+      <span class="marca-texto">Sistema de Reserva</span>
+    </a>
 
     <nav class="nav-links" aria-label="Navegacion principal">
       <a routerLink="/panel-usuario" class="activo">Inicio</a>

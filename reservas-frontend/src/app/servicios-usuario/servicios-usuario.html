@@ -1,6 +1,6 @@
 <div class="servicios-page">
   <header class="topbar-servicios">
-    <a routerLink="/panel-usuario" class="brand">Reservas Pro</a>
+    <a routerLink="/panel-usuario" class="brand">Sistema de Reserva</a>
 
     <nav class="nav-links" aria-label="Navegacion principal">
       <a routerLink="/panel-usuario">Inicio</a>
@@ -191,7 +191,7 @@
     <div class="bloque-pago" *ngIf="tipoFormaPago().includes('transferencia')">
       <h3>Transferencia simulada</h3>
       <p>Cuenta destino: 0000-0000-0000</p>
-      <p>Titular: Sistema de Reservas</p>
+      <p>Titular: Sistema de Reserva</p>
       <input
         type="text"
         [(ngModel)]="pagoSimulado.referenciaTransferencia"
