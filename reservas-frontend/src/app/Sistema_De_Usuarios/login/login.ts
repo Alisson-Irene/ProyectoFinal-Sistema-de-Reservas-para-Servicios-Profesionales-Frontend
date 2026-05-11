@@ -20,6 +20,15 @@ export class LoginComponent {
   password = '';
   mensaje = '';
   mostrarPassword = false;
+  modoRegistro = false;
+  cargando = false;
+
+  registro = {
+    nombre: '',
+    correo: '',
+    password: '',
+    confirmarPassword: ''
+  };
 
   constructor(
     private http: HttpClient,
@@ -29,6 +38,12 @@ export class LoginComponent {
 
   togglePassword() {
     this.mostrarPassword = !this.mostrarPassword;
+  }
+
+  cambiarModo() {
+    this.modoRegistro = !this.modoRegistro;
+    this.mensaje = '';
+    this.mostrarPassword = false;
   }
 
   iniciarSesion() {
@@ -42,12 +57,14 @@ export class LoginComponent {
       password: this.password.trim()
     };
 
+    this.cargando = true;
     this.http.post<any>(`${this.api}/auth/login`, body).subscribe({
       next: (res) => {
-        this.mensaje = res.mensaje || 'Inicio de sesión correcto';
+        this.cargando = false;
+        this.mensaje = res.mensaje || 'Inicio de sesion correcto';
 
         if (!res.token || !res.usuario) {
-          this.mensaje = 'Respuesta de autenticación inválida';
+          this.mensaje = 'Respuesta de autenticacion invalida';
           return;
         }
 
@@ -60,7 +77,54 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        this.mensaje = err?.error?.mensaje || 'Error al iniciar sesión';
+        this.cargando = false;
+        this.mensaje = err?.error?.mensaje || 'Error al iniciar sesion';
+      }
+    });
+  }
+
+  registrarUsuario() {
+    const nombre = this.registro.nombre.trim();
+    const correo = this.registro.correo.trim();
+    const password = this.registro.password.trim();
+    const confirmarPassword = this.registro.confirmarPassword.trim();
+
+    if (!nombre || !correo || !password || !confirmarPassword) {
+      this.mensaje = 'Completa todos los campos';
+      return;
+    }
+
+    if (password !== confirmarPassword) {
+      this.mensaje = 'Las contrasenas no coinciden';
+      return;
+    }
+
+    const body = {
+      nombre,
+      correo,
+      password,
+      rol: 'usuario'
+    };
+
+    this.cargando = true;
+    this.http.post<any>(`${this.api}/usuarios`, body).subscribe({
+      next: (res) => {
+        this.cargando = false;
+        this.mensaje = res.mensaje || 'Usuario registrado correctamente. Ya puedes iniciar sesion.';
+        this.correo = correo;
+        this.password = '';
+        this.registro = {
+          nombre: '',
+          correo: '',
+          password: '',
+          confirmarPassword: ''
+        };
+        this.modoRegistro = false;
+        this.mostrarPassword = false;
+      },
+      error: (err) => {
+        this.cargando = false;
+        this.mensaje = err?.error?.mensaje || 'Error al registrar usuario';
       }
     });
   }

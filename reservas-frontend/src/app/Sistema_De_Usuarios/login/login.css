@@ -4,10 +4,12 @@
   justify-content: center;
   align-items: center;
   background: #f3f4f6;
+  padding: 20px;
 }
 
 .login-card {
-  width: 360px;
+  width: 100%;
+  max-width: 380px;
   background: white;
   padding: 30px;
   border-radius: 12px;
@@ -15,11 +17,11 @@
 }
 
 .login-card h1 {
-  margin-bottom: 10px;
+  margin: 0 0 10px;
 }
 
 .login-card p {
-  margin-bottom: 15px;
+  margin: 0 0 15px;
 }
 
 .login-card input {
@@ -41,7 +43,13 @@
   cursor: pointer;
 }
 
+.login-card button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
 .mensaje {
+  min-height: 20px;
   margin-top: 15px;
 }
 
@@ -53,7 +61,7 @@
 
 .password-input {
   width: 100%;
-  padding: 12px 45px 12px 12px;
+  padding: 12px 76px 12px 12px;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-sizing: border-box;
@@ -62,15 +70,21 @@
 
 .btn-eye {
   position: absolute;
-  right: 12px;
+  right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent !important;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  padding: 0;
-  line-height: 1;
   width: auto !important;
-  color: black !important;
+  min-width: 56px;
+  padding: 7px 9px !important;
+  background: #eef2ff !important;
+  color: #1d4ed8 !important;
+  font-size: 12px;
+  line-height: 1;
+}
+
+.btn-link {
+  margin-top: 10px;
+  background: transparent !important;
+  color: #2563eb !important;
+  border: 1px solid #bfdbfe !important;
 }

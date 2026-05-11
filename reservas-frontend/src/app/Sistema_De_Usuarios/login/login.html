@@ -1,28 +1,73 @@
 <div class="login-container">
   <div class="login-card">
-    <h1>Login</h1>
-    <p>Ingresa al sistema</p>
+    <h1>{{ modoRegistro ? 'Crear cuenta' : 'Login' }}</h1>
+    <p>{{ modoRegistro ? 'Registrate como usuario' : 'Ingresa al sistema' }}</p>
 
-    <input
-      type="email"
-      [(ngModel)]="correo"
-      placeholder="Correo"
-    >
-
-    <div class="password-container">
+    <ng-container *ngIf="!modoRegistro; else registroForm">
       <input
-        class="password-input"
-        [type]="mostrarPassword ? 'text' : 'password'"
-        [(ngModel)]="password"
-        placeholder="Contraseña"
+        type="email"
+        [(ngModel)]="correo"
+        placeholder="Correo"
       >
 
-      <button type="button" (click)="togglePassword()" class="btn-eye">
-        {{ mostrarPassword ? '🙈' : '👁️' }}
-      </button>
-    </div>
+      <div class="password-container">
+        <input
+          class="password-input"
+          [type]="mostrarPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          placeholder="Contrasena"
+        >
 
-    <button type="button" (click)="iniciarSesion()">Iniciar sesión</button>
+        <button type="button" (click)="togglePassword()" class="btn-eye">
+          {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
+        </button>
+      </div>
+
+      <button type="button" (click)="iniciarSesion()" [disabled]="cargando">
+        {{ cargando ? 'Ingresando...' : 'Iniciar sesion' }}
+      </button>
+    </ng-container>
+
+    <ng-template #registroForm>
+      <input
+        type="text"
+        [(ngModel)]="registro.nombre"
+        placeholder="Nombre"
+      >
+
+      <input
+        type="email"
+        [(ngModel)]="registro.correo"
+        placeholder="Correo"
+      >
+
+      <div class="password-container">
+        <input
+          class="password-input"
+          [type]="mostrarPassword ? 'text' : 'password'"
+          [(ngModel)]="registro.password"
+          placeholder="Contrasena"
+        >
+
+        <button type="button" (click)="togglePassword()" class="btn-eye">
+          {{ mostrarPassword ? 'Ocultar' : 'Ver' }}
+        </button>
+      </div>
+
+      <input
+        [type]="mostrarPassword ? 'text' : 'password'"
+        [(ngModel)]="registro.confirmarPassword"
+        placeholder="Confirmar contrasena"
+      >
+
+      <button type="button" (click)="registrarUsuario()" [disabled]="cargando">
+        {{ cargando ? 'Registrando...' : 'Registrarse' }}
+      </button>
+    </ng-template>
+
+    <button type="button" class="btn-link" (click)="cambiarModo()" [disabled]="cargando">
+      {{ modoRegistro ? 'Ya tengo cuenta' : 'Crear cuenta de usuario' }}
+    </button>
 
     <p class="mensaje">{{ mensaje }}</p>
   </div>
