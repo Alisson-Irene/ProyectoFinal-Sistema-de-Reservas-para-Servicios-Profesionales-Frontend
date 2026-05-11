@@ -107,7 +107,7 @@ export class LoginComponent {
     };
 
     this.cargando = true;
-    this.http.post<any>(`${this.api}/usuarios`, body).subscribe({
+    this.http.post<any>(`${this.api}/auth/register`, body).subscribe({
       next: (res) => {
         this.cargando = false;
         this.mensaje = res.mensaje || 'Usuario registrado correctamente. Ya puedes iniciar sesion.';
@@ -124,6 +124,16 @@ export class LoginComponent {
       },
       error: (err) => {
         this.cargando = false;
+        if (err?.status === 404) {
+          this.mensaje = 'El backend aun no tiene habilitado el registro publico';
+          return;
+        }
+
+        if (err?.status === 401 || err?.status === 403) {
+          this.mensaje = 'El registro publico no esta permitido en el backend';
+          return;
+        }
+
         this.mensaje = err?.error?.mensaje || 'Error al registrar usuario';
       }
     });
