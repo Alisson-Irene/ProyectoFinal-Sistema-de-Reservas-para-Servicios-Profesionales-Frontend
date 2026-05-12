@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { forkJoin, of } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { API_BASE_URL } from '../config/api.config';
 
 @Component({
@@ -33,7 +35,74 @@ export class InventarioComponent implements OnInit {
   servicioEditandoId: number | null = null;
   cargandoServicios = false;
   creandoServicio = false;
+  insertandoServicios = false;
   mostrarListaCompleta = false;
+
+  serviciosIniciales = [
+    {
+      nombre: 'Reparación de computadoras',
+      descripcion: 'Revisión y solución de fallas en equipos de cómputo.',
+      precio: 50,
+      categoria: 'Soporte técnico',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Limpieza y optimización del equipo',
+      descripcion: 'Mejora del rendimiento del equipo mediante limpieza de archivos temporales, revisión de programas innecesarios y ajustes básicos del sistema',
+      precio: 45,
+      categoria: 'Soporte técnico',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Mantenimiento preventivo',
+      descripcion: 'Revisión periódica para evitar fallas futuras',
+      precio: 30,
+      categoria: 'Mantenimiento',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Control de fallas',
+      descripcion: 'Identificación y seguimiento de errores frecuentes',
+      precio: 25,
+      categoria: 'Mantenimiento',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Desarrollo de sistemas',
+      descripcion: 'Construcción de aplicaciones o sistemas según necesidades del cliente (Precio variable)',
+      precio: 500,
+      categoria: 'Diseño y desarrollo',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Desarrollo de base de datos',
+      descripcion: 'Creación y organización de datos para un sistema (Precio variable)',
+      precio: 100,
+      categoria: '',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Capacitación en herramientas digitales',
+      descripcion: 'Enseñanza del uso de aplicaciones y plataformas tecnológicas',
+      precio: 45,
+      categoria: 'Capacitación',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Capacitación en seguridad informática',
+      descripcion: 'Orientación para proteger datos, cuentas y equipos',
+      precio: 54,
+      categoria: 'Capacitación',
+      estado: 'ACTIVO'
+    },
+    {
+      nombre: 'Auditoría de sistemas',
+      descripcion: 'Revisión del funcionamiento, seguridad y control de un sistema',
+      precio: 300,
+      categoria: 'Capacitación',
+      estado: 'ACTIVO'
+    }
+  ];
 
   constructor(
     private http: HttpClient,
@@ -46,9 +115,9 @@ export class InventarioComponent implements OnInit {
   }
 
   cargarCategorias(): void {
-    this.http.get<any[]>(`${this.api}/categorias`).subscribe({
+    this.http.get<any>(`${this.api}/categorias`).subscribe({
       next: (res) => {
-        this.categorias = res;
+        this.categorias = this.obtenerListaCategorias(res);
         console.log('Categorías cargadas:', res);
       },
       error: (err) => {
@@ -135,6 +204,138 @@ export class InventarioComponent implements OnInit {
     }
 
     return [];
+  }
+
+  private obtenerListaCategorias(respuesta: any): any[] {
+    if (Array.isArray(respuesta)) {
+      return respuesta;
+    }
+
+    if (Array.isArray(respuesta?.categorias)) {
+      return respuesta.categorias;
+    }
+
+    if (Array.isArray(respuesta?.data)) {
+      return respuesta.data;
+    }
+
+    return [];
+  }
+
+  insertarServiciosIniciales(): void {
+    if (this.insertandoServicios) return;
+
+    this.mensaje = '';
+    this.insertandoServicios = true;
+
+    this.http.get<any>(`${this.api}/servicios`).pipe(
+      switchMap((respuestaServicios) => {
+        const serviciosGuardados = this.obtenerListaServicios(respuestaServicios);
+        const nombresGuardados = new Set(
+          serviciosGuardados.map(servicio => this.normalizarTexto(servicio.nombre))
+        );
+        const serviciosPendientes = this.serviciosIniciales.filter(
+          servicio => !nombresGuardados.has(this.normalizarTexto(servicio.nombre))
+        );
+
+        if (serviciosPendientes.length === 0) {
+          return of({ creados: 0, omitidos: this.serviciosIniciales.length });
+        }
+
+        return this.obtenerCategoriasParaServicios(serviciosPendientes).pipe(
+          switchMap((categoriasPorNombre) => {
+            const peticiones = serviciosPendientes.map(servicio => {
+              const categoriaId = servicio.categoria
+                ? categoriasPorNombre.get(this.normalizarTexto(servicio.categoria))?.id || null
+                : null;
+
+              return this.http.post<any>(`${this.api}/servicios`, {
+                nombre: servicio.nombre,
+                descripcion: servicio.descripcion,
+                precio: servicio.precio,
+                categoria_id: categoriaId,
+                estado: servicio.estado,
+                imagen_url: ''
+              });
+            });
+
+            return forkJoin(peticiones).pipe(
+              map(() => ({
+                creados: serviciosPendientes.length,
+                omitidos: this.serviciosIniciales.length - serviciosPendientes.length
+              }))
+            );
+          })
+        );
+      })
+    ).subscribe({
+      next: (resultado) => {
+        const omitidos = resultado.omitidos > 0
+          ? ` ${resultado.omitidos} ya existían y se omitieron.`
+          : '';
+
+        this.mensaje = `Inserción finalizada: ${resultado.creados} servicios creados.${omitidos}`;
+        this.insertandoServicios = false;
+        this.cargarCategorias();
+        this.cargarServicios();
+      },
+      error: (err) => {
+        console.error(err);
+        this.mensaje = err?.error?.detalle || err?.error?.message || 'Error al insertar servicios iniciales';
+        this.insertandoServicios = false;
+      }
+    });
+  }
+
+  private obtenerCategoriasParaServicios(serviciosPendientes: any[]) {
+    return this.http.get<any>(`${this.api}/categorias`).pipe(
+      switchMap((respuestaCategorias) => {
+        const categorias = this.obtenerListaCategorias(respuestaCategorias);
+        const categoriasPorNombre = new Map(
+          categorias.map(categoria => [this.normalizarTexto(categoria.nombre), categoria])
+        );
+        const nombresNecesarios = Array.from(new Set(
+          serviciosPendientes
+            .map(servicio => servicio.categoria)
+            .filter(Boolean)
+            .map(nombre => String(nombre))
+        ));
+        const categoriasFaltantes = nombresNecesarios.filter(
+          nombre => !categoriasPorNombre.has(this.normalizarTexto(nombre))
+        );
+
+        if (categoriasFaltantes.length === 0) {
+          return of(categoriasPorNombre);
+        }
+
+        const peticiones = categoriasFaltantes.map(nombre =>
+          this.http.post<any>(`${this.api}/categorias`, { nombre }).pipe(
+            map((respuesta: any) => respuesta?.categoria || respuesta?.data || respuesta),
+            catchError(() => of(null))
+          )
+        );
+
+        return forkJoin(peticiones).pipe(
+          map((categoriasCreadas) => {
+            categoriasCreadas
+              .filter(Boolean)
+              .forEach((categoria: any) => {
+                categoriasPorNombre.set(this.normalizarTexto(categoria.nombre), categoria);
+              });
+
+            return categoriasPorNombre;
+          })
+        );
+      })
+    );
+  }
+
+  private normalizarTexto(valor: any): string {
+    return String(valor || '')
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .trim();
   }
 
   editarServicio(servicio: any): void {

@@ -48,6 +48,15 @@
         <button type="button" class="btn-cargar" (click)="cargarServicios()" [disabled]="cargandoServicios">
           Cargar Servicios
         </button>
+
+        <button
+          type="button"
+          class="btn-insertar"
+          (click)="insertarServiciosIniciales()"
+          [disabled]="insertandoServicios"
+        >
+          {{ insertandoServicios ? 'Insertando...' : 'Insertar servicios iniciales' }}
+        </button>
       </div>
     </div>
 

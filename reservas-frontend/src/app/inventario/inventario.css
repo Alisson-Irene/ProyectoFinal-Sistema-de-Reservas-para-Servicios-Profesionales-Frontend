@@ -59,6 +59,7 @@
 
 .acciones-form {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-top: 10px;
 }
@@ -80,12 +81,17 @@
   color: white;
 }
 
+.btn-insertar {
+  background: #7c3aed;
+  color: white;
+}
+
 .btn-cancelar {
   background: #6b7280;
   color: white;
 }
 
-button:not(.btn-cargar):not(.btn-editar):not(.btn-cancelar) {
+button:not(.btn-cargar):not(.btn-editar):not(.btn-cancelar):not(.btn-insertar) {
   background: #10b981;
   color: white;
 }
